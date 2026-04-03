@@ -1,3 +1,7 @@
+:root {
+    --primary-cyan: #00d4ff;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -6,7 +10,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0b1b2a;
+    background-color: #0B1B2A;
     font-family: sans-serif; /* Or your preferred font */
     overflow: hidden;
 }
@@ -23,9 +27,9 @@ body {
 .system-container {
     position: relative;
     z-index: 10;
-    background: rgba(10, 20, 30, 0.7);
+    background: #0A141EB3;
     backdrop-filter: blur(10px);
-    border: 2px solid #00d4ff;
+    border: 2px solid var(--primary-cyan);
     padding: 2rem;
     width: 90%;
     max-width: 400px;
@@ -34,9 +38,9 @@ body {
 }
 
 .quest-header h2 {
-    color: #00d4ff;
+    color: var(--primary-cyan);
     letter-spacing: 2px;
-    text-shadow: 0 0 10px #00d4ff;
+    text-shadow: 0 0 10px var(--primary-cyan);
     margin-top: 0;
 }
 
@@ -47,7 +51,7 @@ body {
 .input-group label {
     display: block;
     font-size: 0.8rem;
-    color: #00d4ff;
+    color: var(--primary-cyan);
     margin-bottom: 5px;
 }
 
@@ -63,16 +67,16 @@ input {
 }
 
 input:focus {
-    border-color: #00d4ff;
-    box-shadow: 0 0 5px #00d4ff;
+    border-color: var(--primary-cyan);
+    box-shadow: 0 0 5px var(--primary-cyan);
 }
 
 .accept-btn {
     width: 100%;
     padding: 12px;
     background: transparent;
-    border: 1px solid #00d4ff;
-    color: #00d4ff;
+    border: 1px solid var(--primary-cyan);
+    color: var(--primary-cyan);
     cursor: pointer;
     font-weight: bold;
     transition: 0.4s;
@@ -80,7 +84,7 @@ input:focus {
 }
 
 .accept-btn:hover {
-    background: #00d4ff;
+    background: var(--primary-cyan);
     color: black;
-    box-shadow: 0 0 20px #00d4ff;
+    box-shadow: 0 0 20px var(--primary-cyan);
 }

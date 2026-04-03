@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Navigate to the next stage
             // Ensure this path matches your file structure exactly
-            window.location.href = '/Homepage/entry-point.html';
+            window.location.href = 'Homepage/entry-point.html';
         });
     }
 });
