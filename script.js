@@ -1,18 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.querySelector('.signup-form');
-
+    
     if (signupForm) {
         signupForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Stops the page from just refreshing
-
-            // Get the name from the first input field
-            const playerName = signupForm.querySelector('input[type="text"]').value;
+            e.preventDefault();
             
-            // Save it so you can display "Welcome, [Name]" on the next page
+            // Grab the name to use in the system later
+            const playerName = signupForm.querySelector('input[type="text"]').value;
             localStorage.setItem('playerName', playerName);
-
-            // Redirect to the entry point
-            window.location.href = '/Homepage/entry-point.html'; 
+            
+            // Navigate to the next stage
+            // Ensure this path matches your file structure exactly
+            window.location.href = '/Homepage/entry-point.html';
         });
     }
 });
