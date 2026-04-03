@@ -1,0 +1,82 @@
+/* Ensure the body is prepared for the canvas background */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevents scrollbars from the animation */
+}
+
+/* Make your container look like a floating "System Window" */
+.system-container {
+    position: relative;
+    z-index: 10; /* Keeps the form above the moving lines */
+    background: rgba(10, 20, 30, 0.7); /* Transparent glass effect */
+    backdrop-filter: blur(10px); /* Blurs the background lines behind the box */
+    border: 2px solid #00d4ff;
+    padding: 2rem;
+    /* ... rest of your styling ... */
+}
+
+.quest-header h2 {
+  color: #00d4ff;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #00d4ff;
+}
+
+.input-group {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: #00d4ff;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  padding: 10px;
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 5px #00d4ff;
+}
+
+.accept-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid #00d4ff;
+  color: #00d4ff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.4s;
+  margin-top: 10px;
+}
+
+.accept-btn:hover {
+  background: #00d4ff;
+  color: black;
+  box-shadow: 0 0 20px #00d4ff;
+}
+
+/* px >> pixels (units)
+vh >> % of the screen (also some form of units)
+min-height >> the minimum height of the body relative to the screen
+flex-direction >> stacks items, column is vertical stacking like a tower while rows is horizontal stacking like library book
+border >> It has a thickness (like 1px), a style (like solid), and a color (like #333). Without the border command, the frame is invisible
+padding >> the distance between the text and the edge of the box (inner space)
+margin >> the distance between the box and the rest of the world (outer space)
+display.flex >> used for centering entities (two parts #42445A- justify-content and align-items )
+cursor >> defines what the mouse pointer looks like when it hovers over an element*/
