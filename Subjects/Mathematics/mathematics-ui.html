@@ -173,20 +173,30 @@
             color: #000;
             box-shadow: 0 0 20px var(--accent-blue);
         }
+        
+        .back-btn {
+        margin-top: 30px;
+        padding: 12px 40px;
+        background: transparent;
+        color: var(--accent-blue);
+        border: 1px solid var(--accent-blue);
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: 0.3s;
+        }
+
     </style>
 </head>
 <body>
 
     <div id="loader">
         <div class="spinner"></div>
-        <div class="loading-text">Initializing Meridian Prime...</div>
+        <div class="loading-text">Integrating Mathematics Module...</div>
     </div>
 
-<div>
-    
-</div>
     <div id="dashboard">
-        <h1>ACADEMIC ACCESS</h1>
+        <h1>MATHEMATICS</h1>
         
         <div class="picker">
             <div class="picker-handle"></div>
@@ -197,27 +207,22 @@
             <div id="wheel" class="wheel"></div>
         </div>
 
-        <button class="enter-btn" onclick="navigateToSubject()">ACCESS MODULE</button>
+        <button class="enter-btn" onclick="navigateToLresource()">ACCESS LEARNING RESOURCE</button>
+        <button class="back-btn" onclick="location.href='/Homepage/entry-point.html'">BACK TO HUB</button>
     </div>
 
     <script>
-        const subjects = [
-            { name: 'Mathematics', url: '/Subjects/Mathematics/mathematics-ui.html' },
-            { name: 'Physical Sciences', url: '/Other/coming-soon.html' },
-            { name: 'Life Sciences', url: '/Other/coming-soon.html' },
-            { name: 'Geography', url: '/Other/coming-soon.html' },
-            { name: 'Sepedi HL', url: '/Other/coming-soon.html' },
-            { name: 'Life Orientation', url: '/Other/coming-soon.html' },
-            { name: 'English FAL', url: '/Other/coming-soon.html' }
+        const lresources = [
+            { name: 'Math Test', url: '/Subjects/Mathematics/math-test.html' },
         ];
 
         const wrapper = document.getElementById('scrollWrapper');
         const wheel = document.getElementById('wheel');
-        const anglePerItem = 360 / subjects.length;
+        const anglePerItem = 360 / lresources.length;
         let activeIndex = 0;
 
         // 1. Generate Wheel Items
-        subjects.forEach((subject, i) => {
+        lresources.forEach((lresource, i) => {
             // Create scroll target
             const sItem = document.createElement('div');
             sItem.className = 'scroll-item';
@@ -226,7 +231,7 @@
             // Create 3D Wheel item
             const wItem = document.createElement('div');
             wItem.className = 'wheel-item';
-            wItem.innerText = subject.name;
+            wItem.innerText = lresource.name;
             wItem.style.transform = `rotateX(${-i * anglePerItem}deg) translateZ(120px)`;
             wheel.appendChild(wItem);
         });
@@ -250,8 +255,8 @@
             });
         });
 
-        function navigateToSubject() {
-            const selected = subjects[activeIndex];
+        function navigateToLresource() {
+            const selected = lresources[activeIndex];
             if(selected) window.location.href = selected.url;
         }
 
@@ -267,7 +272,7 @@
                     loader.style.display = 'none';
                     dashboard.classList.add('active');
                 }, 800);
-            }, 3000); 
+            }, 1000); 
         });
     </script>
 </body>
