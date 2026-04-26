@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Hub | Portfolio</title>
+    <style>
+        :root {
+            --bg-dark: #0b182a;
+            --card-bg: #ffffff; /* Maintaining the Legend's white aesthetic */
+            --primary-cyan: #00d4ff;
+            --ink: #333;
+            
+            /* Rank Colors from your Key Tower */
+            --sss-bg: #000;    --sss-txt: #ff0000;
+            --ss-bg: #333;     --ss-txt: #ffaa00;
+            --s-bg: #f8d7da;   --s-txt: #842029;
+            --a-bg: #ffe5d0;   --a-txt: #854d0e;
+            --b-bg: #fff3cd;   --b-txt: #664d03;
+            --c-bg: #d1e7dd;   --c-txt: #0f5132;
+            --d-bg: #d0e7ff;   --d-txt: #044182;
+            --e-bg: #f0f0f0;   --e-txt: #777777;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            margin: 0;
+        }
+
+        /* --- LEGEND: 3x3 ASCENDING GRID --- */
+        .legend-card {
+            background: var(--card-bg);
+            border: 2px solid var(--ink);
+            padding: 15px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .legend-title {
+            color: var(--ink);
+            font-weight: 900;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--ink);
+            margin-bottom: 12px;
+            padding-bottom: 4px;
+            text-align: center;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .key-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Rank Badge Style (Maintained from your Tower) */
+        .rank {
+            width: 40px;
+            text-align: center;
+            padding: 3px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-weight: 900;
+            font-size: 0.75rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .label { color: var(--ink); font-size: 0.75rem; font-weight: 600; }
+
+        /* Color Mapping */
+        .rank-sss { background: var(--sss-bg); color: var(--sss-txt); border: 1px solid red; box-shadow: 0 0 5px rgba(255,0,0,0.3); }
+        .rank-ss  { background: var(--ss-bg);  color: var(--ss-txt); border: 1px solid var(--ss-txt); }
+        .rank-s   { background: var(--s-bg);   color: var(--s-txt); }
+        .rank-a   { background: var(--a-bg);   color: var(--a-txt); }
+        .rank-b   { background: var(--b-bg);   color: var(--b-txt); }
+        .rank-c   { background: var(--c-bg);   color: var(--c-txt); }
+        .rank-d   { background: var(--d-bg);   color: var(--d-txt); }
+        .rank-e   { background: var(--e-bg);   color: var(--e-txt); }
+
+        /* --- TEST HUB --- */
+        .notebook { width: 100%; max-width: 600px; }
+
+        h1 {
+            text-align: center;
+            letter-spacing: 6px;
+            color: var(--primary-cyan);
+            margin-bottom: 40px;
+        }
+
+        .subject-container { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+        .subject-header {
+            width: 100%; background: none; border: none; color: white;
+            padding: 15px; font-size: 1.2rem; font-weight: bold;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+        }
+
+        .subject-header span { color: #d9534f; margin-left: 10px; transition: 0.3s; }
+
+        .test-list { display: none; padding: 20px; background: rgba(0,0,0,0.2); }
+
+        .test-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; }
+
+        .grid-header {
+            font-weight: bold; color: var(--primary-cyan);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 8px; margin-bottom: 12px;
+        }
+
+        /* Link Styling using Complexity Colors */
+        .test-link { text-decoration: none; font-weight: 500; transition: 0.2s; }
+        .test-link:hover { text-decoration: underline; filter: brightness(1.2); }
+
+        /* Active State */
+        .active .test-list { display: block; }
+        .active .subject-header span { transform: rotate(180deg); }
+
+    </style>
+</head>
+<body>
+
+    <div class="legend-card">
+        <div class="legend-title">Complexity Key</div>
+        <div class="legend-grid">
+            <div class="key-item"><span class="rank rank-sss">SSS</span><span class="label">Legendary</span></div>
+            <div class="key-item"><span class="rank rank-ss">SS</span><span class="label">Nightmare</span></div>
+            <div class="key-item"><span class="rank rank-s">S</span><span class="label">Master</span></div>
+            <div class="key-item"><span class="rank rank-a">A</span><span class="label">Advanced</span></div>
+            <div class="key-item"><span class="rank rank-b">B</span><span class="label">Intermediate</span></div>
+            <div class="key-item"><span class="rank rank-c">C</span><span class="label">Standard</span></div>
+            <div class="key-item"><span class="rank rank-d">D</span><span class="label">Casual</span></div>
+            <div class="key-item"><span class="rank rank-e">E</span><span class="label">Novice</span></div>
+        </div>
+    </div>
+
+    <div class="notebook">
+        <h1>TESTS</h1>
+
+        <div class="subject-container">
+            <button class="subject-header" onclick="toggle(this)">MATHEMATICS <span>↓</span></button>
+            <div class="test-list">
+                <div class="test-grid">
+                    <div class="grid-header">Topic</div>
+                    <div class="grid-header">Date</div>
+                    
+                    <div><a href="/Other/Tests/Maths/math-t170426.html" class="test-link" style="color: var(--ss-txt)">Calculus: First Principles</a></div>
+                    <div style="color: var(--ss-txt)">April 2026</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="subject-container">
+            <button class="subject-header" onclick="toggle(this)">LIFE SCIENCES <span>↓</span></button>
+            <div class="test-list">
+                <p style="text-align: center; color: #d9534f; font-style: italic;">No tests available</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggle(btn) {
+            btn.parentElement.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
