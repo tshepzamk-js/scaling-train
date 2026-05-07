@@ -3,99 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title>Oracle | Restricted Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --accent: #00d4ff;
+            --bg: #020205;
+            --glitch-red: rgba(255, 0, 80, 0.7);
+            --glitch-blue: rgba(0, 212, 255, 0.7);
+            --panel: rgba(0, 20, 30, 0.7);
+            --border: rgba(0, 212, 255, 0.3);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            /* The Nebula Gradient */
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e1b4b);
-            background-size: 400% 400%;
-            animation: nebulaMove 15s ease infinite;
+            background-color: var(--bg);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
             color: white;
+            perspective: 1000px;
         }
 
-        @keyframes nebulaMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- THE DISTORTION GRID --- */
+        .grid-plane {
+            position: fixed;
+            width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: rotateX(70deg) translateY(-20%);
+            bottom: -50%; opacity: 0.1;
+            animation: drift 10s linear infinite;
+            z-index: -1;
         }
 
-        /* Glassmorphism Container */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem;
+        @keyframes drift {
+            from { background-position: 0 0; }
+            to { background-position: 0 500px; }
+        }
+
+        /* --- HEAVY GLITCH CARD --- */
+        .card {
+            position: relative;
+            width: 450px;
+            padding: 60px 40px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(25px);
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            max-width: 400px;
-            width: 90%;
+            clip-path: polygon(0 10%, 10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.15);
+            animation: shake 0.5s infinite; /* Constant micro-shake */
         }
 
-        h1 {
-            font-size: 2rem;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        @keyframes shake {
+            0% { transform: translate(0,0) rotate(0deg); }
+            25% { transform: translate(-1px, 1px) rotate(-0.1deg); }
+            50% { transform: translate(1px, -1px) rotate(0.1deg); }
+            75% { transform: translate(-1px, -1px) rotate(0deg); }
+            100% { transform: translate(1px, 1px) rotate(0.1deg); }
         }
 
-        p {
-            color: #94a3b8;
-            line-height: 1.6;
+        /* Randomized Corruption Bars */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0, 212, 255, 0.05) 3px, transparent 4px);
+            pointer-events: none;
         }
 
-        .status-glow {
-            width: 10px;
-            height: 10px;
-            background-color: #38bdf8;
-            border-radius: 50%;
+        /* --- THE GLITCH HEADER --- */
+        .glitch-wrapper {
+            position: relative;
             display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 10px #38bdf8;
+            margin-bottom: 20px;
         }
-        
-        .back-btn {
-        margin-top: 30px;
-        padding: 12px 40px;
-        background: transparent;
-        color: #00d4ff;
-        border: 1px solid #00d4ff;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: 0.3s;
+
+        .glitch {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 12px;
+            color: white;
+            position: relative;
+            text-transform: uppercase;
+        }
+
+        /* RGB Split Layers */
+        .glitch::before, .glitch::after {
+            content: 'INCOMING';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+        }
+
+        .glitch::before {
+            left: 3px;
+            text-shadow: -3px 0 var(--glitch-red);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -3px;
+            text-shadow: -3px 0 var(--glitch-blue);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(15px, 9999px, 50px, 0); transform: skew(0.5deg); }
+            10% { clip: rect(85px, 9999px, 140px, 0); transform: skew(-0.5deg); }
+            20% { clip: rect(40px, 9999px, 60px, 0); transform: skew(1deg); }
+            30% { clip: rect(100px, 9999px, 120px, 0); transform: skew(-1deg); }
+            50% { clip: rect(10px, 9999px, 150px, 0); transform: skew(0.5deg); }
+            100% { clip: rect(60px, 9999px, 90px, 0); transform: skew(0deg); }
+        }
+
+        .status-box {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 25px;
+            background: rgba(255, 0, 80, 0.1);
+            border: 1px solid var(--glitch-red);
+            color: #ff4d4d;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .dot {
+            width: 6px; height: 6px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff4d4d;
+            animation: blink 0.2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .desc {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            letter-spacing: 1px;
+        }
+
+        /* --- AGGRESSIVE BUTTON --- */
+        .btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 18px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            cursor: pointer;
+            position: relative;
+            transition: 0.2s;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: black;
+            box-shadow: 0 0 40px var(--accent), inset 0 0 20px white;
+            transform: scale(1.1) skew(-2deg);
+        }
+
+        /* Random Distortion Blocks */
+        .corruption-block {
+            position: absolute;
+            background: var(--accent);
+            width: 100px; height: 2px;
+            opacity: 0;
+            pointer-events: none;
+            animation: data-pop 4s infinite;
+        }
+
+        @keyframes data-pop {
+            0%, 95% { opacity: 0; }
+            96% { opacity: 0.8; transform: translate(100px, 50px); }
+            97% { opacity: 0; }
+            98% { opacity: 0.8; transform: translate(-50px, -100px); }
+            100% { opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="glass-card">
-        <h1>ORACLE</h1>
-        <p><span class="status-glow"></span> System Online</p>
-        <div style="margin-top: 20px; font-family: 'Titan One', cursive; font-size: 3.0rem; color: #00D4FF;">
-            Coming soon...
+    <div class="grid-plane"></div>
+    <div class="corruption-block" style="top: 20%; left: 10%;"></div>
+    <div class="corruption-block" style="top: 70%; right: 15%;"></div>
+
+    <div class="card">
+        <div style="font-family: 'Rajdhani'; font-size: 0.7rem; color: var(--accent); letter-spacing: 8px; margin-bottom: 10px;">
+            CRITICAL ACCESS ERROR
         </div>
-        <div>
-            <button class="back-btn" onclick="history.back()">BACK TO HUB</button>
+        
+        <div class="glitch-wrapper">
+            <div class="glitch">INCOMING</div>
         </div>
+
+        <div class="status-box">
+            <span class="dot"></span>
+            WARNING: UNAUTHORIZED DECRYPTION DETECTED
+        </div>
+
+        <p class="desc">
+            THE SECTOR "ORACLE" IS CURRENTLY UNDER HIGH-LEVEL ENCRYPTION. <br>
+            FURTHER ATTEMPTS WILL TRIGGER SYSTEM LOCKDOWN.
+        </p>
+
+        <button class="btn" onclick="window.location.href='../Homepage/entry-point.html'">
+                ABORT ACCESS
+        </button>
+
     </div>
 
-    
 </body>
 </html>
