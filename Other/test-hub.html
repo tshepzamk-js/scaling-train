@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Study Ledger</title>
+    <title>Astra Academy | Study Ledger</title>
     <style>
         :root {
             /* Sophisticated Dark Palette */
@@ -16,6 +16,7 @@
             --accent-science: #00f2ff;
             --glow-math: rgba(255, 77, 77, 0.2);
             --glow-science: rgba(0, 242, 255, 0.2);
+            --accent: #00d4ff;
 
             /* Difficulty Colors */
             --sss: #ff0000; --ss: #ffaa00; --s: #f8d7da;
@@ -33,10 +34,97 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 120px 20px 40px; /* Increased top padding to clear fixed logo and menu */
             color: var(--text-main);
+            position: relative;
         }
 
+        /* --- ASTRA ACADEMY CENTERED LOGO BUTTON --- */
+        .logo-home-btn {
+            position: fixed;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            height: 44px;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-home-btn img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
+            transition: filter 0.2s ease;
+        }
+
+        .logo-home-btn:hover {
+            transform: translateX(-50%) scale(1.03);
+        }
+
+        .logo-home-btn:hover img {
+            filter: drop-shadow(0 0 15px var(--accent));
+        }
+
+        /* --- SYMMETRICAL MENU TAB --- */
+        .menu-btn {
+            position: fixed;
+            top: 35px;
+            left: 35px;
+            z-index: 1000;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .bar {
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Symmetrical X Animation */
+        .menu-btn.open #bar1 { transform: translateY(8px) rotate(-45deg); }
+        .menu-btn.open #bar2 { opacity: 0; transform: translateX(-10px); }
+        .menu-btn.open #bar3 { transform: translateY(-8px) rotate(45deg); }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            background: rgba(0, 8, 15, 0.98);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            overflow-x: hidden;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .sidenav a {
+            padding: 20px 40px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            color: #444;
+            display: block;
+            transition: 0.3s;
+            letter-spacing: 3px;
+        }
+
+        .sidenav a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+
+        /* --- LEDGER CONTAINER --- */
         .ledger-container {
             width: 100%;
             max-width: 700px;
@@ -47,6 +135,7 @@
             border: 1px solid var(--glass-border);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             overflow: hidden;
+            height: fit-content;
         }
 
         header {
@@ -163,7 +252,7 @@
         .note-title { font-weight: 500; font-size: 1.05rem; margin-bottom: 4px; }
         .note-date { font-size: 0.8rem; color: var(--text-dim); }
 
-        .arrow { align-self: center; font-size: 1.2rem; opacity: 0.3; }
+        .arrow { align-self: center; font-size: 1.2rem; opacity: 0.3; transition: transform 0.3s ease, opacity 0.3s ease; }
         .note-entry:hover .arrow { opacity: 1; transform: translateX(5px); }
 
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
@@ -175,55 +264,82 @@
 </head>
 <body>
 
-<div class="ledger-container">
-    <header>
-        <h1>STUDY LEDGER</h1>
-        <p style="color: var(--text-dim); margin-top: 5px; font-size: 0.9rem;">The External Brain / 2026</p>
-    </header>
+    <a href="../Homepage/homepage.html" class="logo-home-btn">
+        <img src="/Images/1780931839090.png" alt="Astra Academy Logo">
+    </a>
 
-    <div class="legend-bar">
-        <div class="key-item"><span class="rank rank-e">E</span><span class="label">Novice</span></div>
-        <div class="key-item"><span class="rank rank-d">D</span><span class="label">Casual</span></div>
-        <div class="key-item"><span class="rank rank-c">C</span><span class="label">Standard</span></div>
-        <div class="key-item"><span class="rank rank-b">B</span><span class="label">Intermediate</span></div>
-        <div class="key-item"><span class="rank rank-a">A</span><span class="label">Advanced</span></div>
-        <div class="key-item"><span class="rank rank-s">S</span><span class="label">Master</span></div>
-        <div class="key-item"><span class="rank rank-ss">SS</span><span class="label">Nightmare</span></div>
-        <div class="key-item"><span class="rank rank-sss">SSS</span><span class="label">Legendary</span></div>
+    <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+        <div class="bar" id="bar1"></div>
+        <div class="bar" id="bar2"></div>
+        <div class="bar" id="bar3"></div>
     </div>
 
-    <div class="search-bar">
-        <input type="text" placeholder="Jump to a concept...">
+    <div id="sideNav" class="sidenav">
+        <div style="height: 120px;"></div>
+        <a href="../Other/sub-selection.html">SUBJECTS</a>
+        <a href="#">COMING SOON</a>
+        <a href="#">COMING SOON</a>
+        <a href="#" style="color: #ff4d4d; margin-top: 40px;">UNKNOWN</a>
     </div>
 
-    <div class="note-section">
-        <div class="category-label" style="color: var(--accent-math);">
-            <span class="dot" style="background: var(--accent-math); box-shadow: 0 0 10px var(--accent-math);"></span>
-            Mathematics
+    <div class="ledger-container">
+        <header>
+            <h1>STUDY LEDGER</h1>
+            <p style="color: var(--text-dim); margin-top: 5px; font-size: 0.9rem;">The External Brain / 2026</p>
+        </header>
+
+        <div class="legend-bar">
+            <div class="key-item"><span class="rank rank-e">E</span><span class="label">Novice</span></div>
+            <div class="key-item"><span class="rank rank-d">D</span><span class="label">Casual</span></div>
+            <div class="key-item"><span class="rank rank-c">C</span><span class="label">Standard</span></div>
+            <div class="key-item"><span class="rank rank-b">B</span><span class="label">Intermediate</span></div>
+            <div class="key-item"><span class="rank rank-a">A</span><span class="label">Advanced</span></div>
+            <div class="key-item"><span class="rank rank-s">S</span><span class="label">Master</span></div>
+            <div class="key-item"><span class="rank rank-ss">SS</span><span class="label">Nightmare</span></div>
+            <div class="key-item"><span class="rank rank-sss">SSS</span><span class="label">Legendary</span></div>
         </div>
 
-        <a href="../Other/Tests/Maths/math-t170426.html" class="note-entry math">
-            <div>
-                <div class="note-title" style="color: #ffe5d0;">Calculus: Derivatives (A)</div>
-                <div class="note-date">April 17, 2026</div>
-            </div>
-            <div class="arrow">→</div>
-        </a>
-
-        <div class="category-label" style="color: var(--accent-science);">
-            <span class="dot" style="background: var(--accent-science); box-shadow: 0 0 10px var(--accent-science);"></span>
-            Unknown
+        <div class="search-bar">
+            <input type="text" placeholder="Jump to a concept...">
         </div>
 
-        <a href="#" class="note-entry science">
-            <div>
-                <div class="note-title" style="color: white;">Unknown</div>
-                <div class="note-date">Date</div>
+        <div class="note-section">
+            <div class="category-label" style="color: var(--accent-math);">
+                <span class="dot" style="background: var(--accent-math); box-shadow: 0 0 10px var(--accent-math);"></span>
+                Mathematics
             </div>
-            <div class="arrow">→</div>
-        </a>
-    </div>
-</div>
 
+            <a href="../Other/Tests/Maths/math-t170426.html" class="note-entry math">
+                <div>
+                    <div class="note-title" style="color: #ffe5d0;">Calculus: Derivatives (A)</div>
+                    <div class="note-date">April 17, 2026</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <div class="category-label" style="color: var(--accent-science);">
+                <span class="dot" style="background: var(--accent-science); box-shadow: 0 0 10px var(--accent-science);"></span>
+                Unknown
+            </div>
+
+            <a href="#" class="note-entry science">
+                <div>
+                    <div class="note-title" style="color: white;">Unknown</div>
+                    <div class="note-date">Date</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Menu Toggle Engine
+        function toggleMenu() {
+            const btn = document.getElementById('menuBtn');
+            const nav = document.getElementById('sideNav');
+            btn.classList.toggle('open');
+            nav.style.width = btn.classList.contains('open') ? "280px" : "0";
+        }
+    </script>
 </body>
 </html>

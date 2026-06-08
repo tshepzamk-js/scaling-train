@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meridian Prime | System Boot</title>
+    <title>Astra Academy | System Boot</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -22,6 +22,36 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* --- ASTRA ACADEMY CENTERED LOGO BUTTON --- */
+        .logo-home-btn {
+            position: fixed;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            height: 44px; /* Matches the exact profile size of the homepage container */
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-home-btn img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
+            transition: filter 0.2s ease;
+        }
+
+        .logo-home-btn:hover {
+            transform: translateX(-50%) scale(1.03);
+        }
+
+        .logo-home-btn:hover img {
+            filter: drop-shadow(0 0 15px var(--accent));
         }
 
         /* --- SYMMETRICAL MENU TAB --- */
@@ -84,6 +114,8 @@
             max-width: 450px;
             text-align: center;
             transform: translateY(-40px);
+            position: relative;
+            z-index: 2;
         }
 
         h1 {
@@ -164,6 +196,10 @@
 </head>
 <body>
 
+    <a href="../Homepage/homepage.html" class="logo-home-btn">
+        <img src="/Images/1780931839090.png" alt="Astra Academy Logo">
+    </a>
+
     <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">
         <div class="bar" id="bar1"></div>
         <div class="bar" id="bar2"></div>
@@ -172,9 +208,9 @@
 
     <div id="sideNav" class="sidenav">
         <div style="height: 120px;"></div>
-        <a href="../Other/test-hub.html">TEST HUB</a>
-        <a href="#">UNKNOWN</a>
-        <a href="#">UNKNOWN</a>
+        <a href="../Other/test-hub.html">ARCHIVED TEST</a>
+        <a href="#">COMING SOON</a>
+        <a href="#">COMING SOON</a>
         <a href="#" style="color: #ff4d4d; margin-top: 40px;">UNKNOWN</a>
     </div>
 
@@ -204,12 +240,12 @@
         const picker = document.getElementById('picker');
         let currentSelection = "";
 
-        // Generate Subject List from your old HTML data
+        // Generate Subject List
         subjects.forEach(sub => {
             const div = document.createElement('div');
             div.className = 'subject-item';
             div.innerText = sub.name;
-            div.dataset.url = sub.url; // Store URL in the element
+            div.dataset.url = sub.url; 
             picker.appendChild(div);
         });
 
@@ -229,7 +265,7 @@
                     item.style.opacity = "1";
                     item.style.transform = "scale(1.15)";
                     item.style.textShadow = "0 0 15px var(--accent)";
-                    currentSelection = item.dataset.url; // Set target URL
+                    currentSelection = item.dataset.url; 
                 } else {
                     item.style.color = "#222";
                     item.style.opacity = "0.3";
@@ -252,7 +288,7 @@
             nav.style.width = btn.classList.contains('open') ? "280px" : "0";
         }
 
-        // Updated Launch Function to handle navigation
+        // Launch Function to handle navigation
         function launch() {
             if (currentSelection) {
                 window.location.href = currentSelection;

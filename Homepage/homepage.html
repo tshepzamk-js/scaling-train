@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra Academy | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #00d4ff;
+            --bg: #030712;
+            --toxic-lime: #b5f522;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- TACTICAL CYBER SYSTEM BACKGROUND --- */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at center, transparent 10%, var(--bg) 85%),
+                linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            z-index: 1;
+        }
+
+        /* Center Glowing Energy Aura Pulse */
+        body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            animation: corePulse 6s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+        }
+
+        /* --- LOGO HOME BUTTON (PERFECTLY CENTERED TOP) --- */
+        .logo-home-btn {
+            position: fixed;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            height: 44px;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-home-btn img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.3));
+            transition: filter 0.2s ease;
+        }
+
+        .logo-home-btn:hover {
+            transform: translateX(-50%) scale(1.03);
+        }
+
+        .logo-home-btn:hover img {
+            filter: drop-shadow(0 0 15px var(--accent));
+        }
+
+        /* --- SYMMETRICAL MENU TAB --- */
+        .menu-btn {
+            position: fixed;
+            top: 35px;
+            left: 35px;
+            z-index: 1000;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .bar {
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Symmetrical X Animation */
+        .menu-btn.open #bar1 { transform: translateY(8px) rotate(-45deg); }
+        .menu-btn.open #bar2 { opacity: 0; transform: translateX(-10px); }
+        .menu-btn.open #bar3 { transform: translateY(-8px) rotate(45deg); }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            background: rgba(0, 8, 15, 0.98);
+            backdrop-filter: blur(15px);
+            overflow-x: hidden;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .sidenav a {
+            padding: 20px 40px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: #64748b;
+            display: block;
+            transition: 0.3s;
+            letter-spacing: 3px;
+        }
+
+        .sidenav a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+
+        /* --- HOME LAYER CONTAINER (PERFECTLY CENTERED) --- */
+        .viewport-center-wrapper {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+        }
+
+        /* --- ENLARGED WORD ANIMATION ENGINE --- */
+        .text-display-stage {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 140px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .staggered-phrase {
+            position: absolute;
+            font-size: 32px; 
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            opacity: 0;
+            text-align: center;
+            width: 100%;
+            animation: staggeredFadeLoop 12s infinite ease-in-out;
+        }
+
+        .phrase-1 { 
+            animation-delay: 0s; 
+            color: #94a3b8;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+        }
+        .phrase-2 { 
+            animation-delay: 4s; 
+            color: #94a3b8;
+            text-shadow: 0 0 20px rgba(148, 163, 184, 0.15);
+        }
+        .phrase-3 { 
+            animation-delay: 8s; 
+            color: var(--accent); 
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.55); 
+        }
+
+        @keyframes staggeredFadeLoop {
+            0% { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+            6% { opacity: 1; transform: translateY(0); filter: blur(0); }
+            28% { opacity: 1; transform: translateY(0); filter: blur(0); }
+            33% { opacity: 0; transform: translateY(-10px); filter: blur(4px); }
+            100% { opacity: 0; }
+        }
+
+        /* --- INTERACTIVE ACTION ZONE --- */
+        .interactive-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 200px; 
+        }
+
+        .reveal-payload {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: materializePayload 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 11.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes materializePayload {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Active Question Trigger Button */
+        .help-btn {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(6, 14, 26, 0.9);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 16px;
+        }
+
+        .help-btn:hover {
+            background: var(--accent);
+            color: #030712;
+            box-shadow: 0 0 30px var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* --- SYSTEM MARQUEE UPWARD CARET --- */
+        .marquee-arrow {
+            color: var(--accent);
+            display: inline-block;
+            font-size: 24px;
+            font-weight: 700;
+            transform: rotate(-90deg);
+            animation: verticalMarquee 1s infinite ease-in-out;
+            margin-bottom: 12px;
+            user-select: none;
+        }
+
+        @keyframes verticalMarquee {
+            0%, 100% { transform: rotate(-90deg) translateX(0); opacity: 0.5; }
+            50% { transform: rotate(-90deg) translateX(-6px); opacity: 1; }
+        }
+
+        /* --- TOXIC LIME GREEN STATUS PROMPT --- */
+        .guide-text {
+            font-size: 24px; 
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent); 
+            text-shadow: 0 0 20px rgba(181, 245, 34, 0.4);
+            user-select: none;
+        }
+
+        /* --- SYSTEM TASK MODAL CARD OVERLAY --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(3, 7, 18, 0.94);
+            backdrop-filter: blur(10px);
+            z-index: 1010; /* Above navigation tab button layers */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .quest-card {
+            background: #050c16;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.35);
+            width: 88%;
+            max-width: 440px;
+            padding: 32px;
+            border-radius: 4px;
+            transform: scale(0.85) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .quest-card::before, .quest-card::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-color: var(--accent);
+            border-style: solid;
+        }
+        .quest-card::before { top: -2px; left: -2px; border-width: 3px 0 0 3px; }
+        .quest-card::after { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; }
+
+        .quest-header {
+            color: var(--accent);
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.25);
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+        }
+
+        .nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .nav-link {
+            width: 100%;
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid #1e293b;
+            color: #cbd5e1;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .close-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 12px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="homepage.html" class="logo-home-btn">
+        <img src="/Images/1780931839090.png" alt="Astra Academy Logo">
+    </a>
+
+    <div class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+        <div class="bar" id="bar1"></div>
+        <div class="bar" id="bar2"></div>
+        <div class="bar" id="bar3"></div>
+    </div>
+
+    <div id="sideNav" class="sidenav">
+        <div style="height: 120px;"></div>
+        <a href="../Other/sub-selection.html">SUBJECTS</a>
+        <a href="../Other/test-hub.html">ARCHIVE TESTS</a>
+        <a href="#">COOMING SOON</a>
+        <a href="javascript:window.close()" style="color: #ff4d4d; margin-top: 40px;">TERMINATE</a>
+    </div>
+
+    <div class="viewport-center-wrapper">
+        <div class="text-display-stage">
+            <div class="staggered-phrase phrase-1">Astra Academy</div>
+            <div class="staggered-phrase phrase-2">Designed for academic excellence</div>
+            <div class="staggered-phrase phrase-3">Build your own future</div>
+        </div>
+
+        <div class="interactive-zone">
+            <div class="reveal-payload">
+                <button class="help-btn" id="helpBtn">?</button>
+
+                <span class="marquee-arrow">»</span>
+
+                <div class="guide-text">NEED HELP</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="guideModal">
+        <div class="quest-card">
+            <div class="quest-header">[ SYSTEM ACTIVE: NAVIGATOR ]</div>
+            
+            <div class="nav-list">
+                <button class="nav-link" onclick="return false">COMING SOON</button>
+                <button class="nav-link" onclick="return false">COMING SOON</button>
+                <button class="nav-link" onclick="return false">COMING SOON</button>
+            </div>
+
+            <button class="close-btn" id="closeBtn">Dismiss Guide</button>
+        </div>
+    </div>
+
+    <script>
+        const helpBtn = document.getElementById('helpBtn');
+        const guideModal = document.getElementById('guideModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // Modal Action Observers
+        helpBtn.addEventListener('click', () => guideModal.classList.add('open'));
+        closeBtn.addEventListener('click', () => guideModal.classList.remove('open'));
+        
+        guideModal.addEventListener('click', (e) => {
+            if (e.target === guideModal) guideModal.classList.remove('open');
+        });
+
+        // Menu Toggle Engine
+        function toggleMenu() {
+            const btn = document.getElementById('menuBtn');
+            const nav = document.getElementById('sideNav');
+            btn.classList.toggle('open');
+            nav.style.width = btn.classList.contains('open') ? "280px" : "0";
+        }
+
+        // Module Routing Vector
+        function routeTo(destination) {
+            guideModal.classList.remove('open');
+            alert(`[System Notice]: Routing active connection to target file: "${destination}.html"`);
+        }
+    </script>
+</body>
+</html>
