@@ -159,34 +159,50 @@
     </script>
     
     <script type="module">
-    // 1. Import the database 'db' engine from your config file
+    // 1. Import database engine
     import { db } from './firebase-config.js';
     
-    // 2. Import the basic collection and addDoc functions from the Firebase CDN
+    // 2. Import Firestore core operational functions
     import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // 3. Create a quick async function to push a test document
-    async function testDatabaseConnection() {
-        try {
-            console.log("Attempting to connect to Firestore...");
-            
-            // This line says: In the 'test_pings' collection, add a new document
-            const docRef = await addDoc(collection(db, "test_pings"), {
-                message: "System check: Connection online",
-                timestamp: new Date().toISOString()
+    document.addEventListener('DOMContentLoaded', () => {
+        const signupForm = document.querySelector('.signup-form');
+        
+        if (signupForm) {
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Grab the inputted player name
+                const playerName = signupForm.querySelector('input[type="text"]').value;
+                
+                // Fallback local storage backup
+                localStorage.setItem('playerName', playerName);
+                
+                try {
+                    console.log("Registering new player in the cloud registry...");
+                    
+                    // 3. Save the actual user entry to a clean 'players' collection
+                    const docRef = await addDoc(collection(db, "players"), {
+                        username: playerName,
+                        registeredAt: new Date().toISOString(),
+                        status: "Active",
+                        level: 1 // Perfect starting parameter for an academy style application
+                    });
+                    
+                    console.log("Player successfully registered with UID: ", docRef.id);
+                    
+                    // 4. Redirect the user only AFTER the database confirms receipt
+                    window.location.href = './Homepage/homepage.html';
+                    
+                } catch (error) {
+                    console.error("Critical: Registration failed.", error);
+                    alert("System Link Failure. Please check your internet connection.");
+                }
             });
-            
-            console.log("Success! Test document written with ID: ", docRef.id);
-            alert("Database Connection Successful!");
-            
-        } catch (error) {
-            console.error("Error connecting to database: ", error);
         }
-    }
+    });
+</script>
 
-    // Run the function immediately when the page loads
-    testDatabaseConnection();
-    </script>
 
 </body>
 </html>
