@@ -157,5 +157,36 @@
             spacing: 15.00
         });
     </script>
+    
+    <script type="module">
+    // 1. Import the database 'db' engine from your config file
+    import { db } from './firebase-config.js';
+    
+    // 2. Import the basic collection and addDoc functions from the Firebase CDN
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // 3. Create a quick async function to push a test document
+    async function testDatabaseConnection() {
+        try {
+            console.log("Attempting to connect to Firestore...");
+            
+            // This line says: In the 'test_pings' collection, add a new document
+            const docRef = await addDoc(collection(db, "test_pings"), {
+                message: "System check: Connection online",
+                timestamp: new Date().toISOString()
+            });
+            
+            console.log("Success! Test document written with ID: ", docRef.id);
+            alert("Database Connection Successful!");
+            
+        } catch (error) {
+            console.error("Error connecting to database: ", error);
+        }
+    }
+
+    // Run the function immediately when the page loads
+    testDatabaseConnection();
+    </script>
+
 </body>
 </html>
