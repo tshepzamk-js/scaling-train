@@ -138,48 +138,7 @@
         });
     </script>
     
-    <script type="module">
-        // 1. Import database engine from your central config file
-        import { db } from './firebase-config.js';
-        
-        // 2. Import Firestore functions
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    
-        const signupForm = document.querySelector('.signup-form');
-        
-        if (signupForm) {
-            signupForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Grab the value using the new ID we added
-                const playerName = document.getElementById('playerName').value;
-                
-                // Keep your local storage backup
-                localStorage.setItem('playerName', playerName);
-                
-                try {
-                    console.log("Registering new player in the cloud registry...");
-                    
-                    // 3. Save the entry to your Firestore 'players' collection
-                    const docRef = await addDoc(collection(db, "players"), {
-                        username: playerName,
-                        registeredAt: new Date().toISOString(),
-                        status: "Active",
-                        level: 1 
-                    });
-                    
-                    console.log("Player successfully registered with ID: ", docRef.id);
-                    
-                    // 4. Redirect only after successful cloud save
-                    window.location.href = './Homepage/homepage.html';
-                    
-                } catch (error) {
-                    console.error("Critical: Registration failed.", error);
-                    alert("System Link Failure. Ensure your internet is working or Firestore rules allow writes.");
-                }
-            });
-        }
-    </script>
+    <script type="module" src="./auth-registry.js"></script>
 
 </body>
 </html>
