@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 
                 console.log(`Player "${playerName}" successfully registered cleanly.`);
-                window.location.href = './Homepage/homepage.html';
+                window.location.href = '../Homepage/homepage.html';
                 
             } catch (error) {
                 console.error("Critical: Registration failed.", error);
