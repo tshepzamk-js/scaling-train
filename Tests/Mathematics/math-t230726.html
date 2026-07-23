@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mathematics | Grade 12 Baseline</title>
+    <title>Subject | Topic</title>
     <style>
         :root {
+            /* Fallback runtime variables - overwritten dynamically via metadata flags */
             --accent-theme: #00d4ff; 
             --bg-dark: #030712; 
             --card-bg: rgba(255, 255, 255, 0.02);
@@ -24,6 +25,8 @@
             min-height: 100vh;
             padding: 40px 20px;
             box-sizing: border-box;
+            
+            /* High-End Background Design */
             background-image: 
                 radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
@@ -33,7 +36,10 @@
             background-attachment: fixed;
         }
 
-        .container { width: 100%; max-width: 750px; }
+        .container {
+            width: 100%;
+            max-width: 750px;
+        }
 
         .header {
             border-left: 4px solid var(--accent-theme);
@@ -45,7 +51,7 @@
         }
 
         h1 { 
-            color: var(--accent-theme); 
+            color: var(--accent-theme); /* Title natively binds to matching rank color */
             margin: 0; 
             font-size: 2.2rem; 
             letter-spacing: -0.02em;
@@ -83,8 +89,14 @@
             box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--accent-theme);
         }
 
-        .q-text { font-size: 1.15rem; margin-bottom: 20px; line-height: 1.7; color: #f1f5f9; }
+        .q-text {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: #f1f5f9;
+        }
 
+        /* Question Tips styling */
         .q-tip {
             font-size: 0.9rem;
             color: var(--accent-theme);
@@ -99,6 +111,7 @@
             opacity: 0.85;
         }
 
+        /* Image Display Frame */
         .q-image-wrapper {
             margin: 15px 0 25px 0;
             border-radius: 12px;
@@ -110,8 +123,14 @@
             justify-content: center;
         }
 
-        .q-image-wrapper img { max-width: 100%; height: auto; display: block; object-fit: contain; }
+        .q-image-wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
 
+        /* Nested Layout for Subquestions */
         .subquestions-container {
             display: flex;
             flex-direction: column;
@@ -128,13 +147,33 @@
             border: 1px solid rgba(255, 255, 255, 0.02);
         }
 
-        .sub-q-text { font-size: 1.05rem; margin-bottom: 14px; color: #cbd5e1; line-height: 1.6; }
+        .sub-q-text {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
 
-        .inputs-wrapper { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 5px; }
+        .inputs-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 5px;
+        }
 
-        .input-group { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 150px; }
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 150px;
+        }
 
-        .input-prefix { font-size: 0.95rem; color: #64748b; font-weight: 600; }
+        .input-prefix {
+            font-size: 0.95rem;
+            color: #64748b;
+            font-weight: 600;
+        }
 
         input[type="text"] {
             width: 100%;
@@ -150,8 +189,12 @@
             transition: all 0.2s ease;
         }
 
-        input:focus { border-color: var(--accent-theme); background: rgba(0, 0, 0, 0.6); }
+        input:focus { 
+            border-color: var(--accent-theme); 
+            background: rgba(0, 0, 0, 0.6);
+        }
 
+        /* FIXED CORRECTION DRAWER BUTTON UTILITIES */
         .toggle-solution-btn {
             background: transparent !important;
             border: 1px dashed rgba(255, 255, 255, 0.2) !important;
@@ -202,7 +245,11 @@
             letter-spacing: 1.5px;
         }
 
-        .controls { display: flex; justify-content: space-between; margin-top: 50px; }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
 
         .action-btn {
             padding: 14px 30px;
@@ -221,6 +268,11 @@
             background: var(--accent-theme);
             color: #030712;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         #result-score {
@@ -272,11 +324,15 @@
 
     <div class="controls">
         <button class="action-btn" onclick="location.href='../../test-hub.html'">BACK TO HUB</button>
-        <button class="action-btn" onclick="submitTest()">SUBMIT ANSWERS</button>
+        <button id="submit-btn" class="action-btn" onclick="submitTest()">SUBMIT ANSWERS</button>
     </div>
 </div>
 
-<script>
+<!-- Firebase Module Connection & Engine Integration -->
+<script type="module">
+    import { saveAssessmentResult } from './firebase-config.js';
+
+    // --- MASTER STUDY CONFIGURATION DATA GRID ---
 const testData = {
     title: "Grade 12 Mathematics Baseline Diagnostic",
     meta: "Subject: Mathematics | Rank: S", 
@@ -474,176 +530,211 @@ const testData = {
     ]
 };
 
-function initializeTheme() {
-    const metaText = testData.meta;
-    let themeColor = "#00d4ff"; 
-    const rankColors = { 'sss': '#ff0000', 'ss': '#ffaa00', 's': '#f8d7da', 'a': '#ffe5d0', 'b': '#fff3cd', 'c': '#d1e7dd', 'd': '#d0e7ff', 'e': '#f0f0f0' };
-    const rankMatch = metaText.match(/Rank\s*:\s*([a-z]+)/i);
-    let updatedMetaHTML = metaText;
+    function initializeTheme() {
+        const metaText = testData.meta;
+        let themeColor = "#00d4ff"; 
+        
+        const rankColors = {
+            'sss': '#ff0000', 'ss': '#ffaa00', 's': '#00d4ff',   
+            'a': '#ffe5d0',   'b': '#fff3cd',  'c': '#d1e7dd',   
+            'd': '#d0e7ff',   'e': '#f0f0f0'    
+        };
 
-    if (rankMatch && rankMatch[1]) {
-        const targetRank = rankMatch[1].toLowerCase();
-        if (rankColors[targetRank]) {
-            themeColor = rankColors[targetRank];
-            updatedMetaHTML = metaText.replace(rankMatch[0], `<span class="rank-highlight">${rankMatch[0]}</span>`);
+        const rankMatch = metaText.match(/Rank\s*:\s*([a-z]+)/i);
+        let updatedMetaHTML = metaText;
+
+        if (rankMatch && rankMatch[1]) {
+            const targetRank = rankMatch[1].toLowerCase();
+            if (rankColors[targetRank]) {
+                themeColor = rankColors[targetRank];
+                const matchedString = rankMatch[0];
+                updatedMetaHTML = metaText.replace(matchedString, `<span class="rank-highlight">${matchedString}</span>`);
+            }
         }
+
+        document.documentElement.style.setProperty('--accent-theme', themeColor);
+        const name = localStorage.getItem('playerName') || "User";
+        document.getElementById('test-meta').innerHTML = `${updatedMetaHTML} | Active Session: ${name}`;
     }
 
-    document.documentElement.style.setProperty('--accent-theme', themeColor);
-    const name = localStorage.getItem('playerName') || "User";
-    document.getElementById('test-meta').innerHTML = `${updatedMetaHTML} | Active Session: ${name}`;
-}
+    function loadTest() {
+        initializeTheme();
+        document.getElementById('test-title').innerText = testData.title;
 
-function loadTest() {
-    initializeTheme();
-    document.getElementById('test-title').innerText = testData.title;
-    const container = document.getElementById('questions-container');
-    container.innerHTML = '';
-    
-    testData.questions.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'question-card';
+        const container = document.getElementById('questions-container');
+        container.innerHTML = '';
         
-        let imageHTML = item.img ? `<div class="q-image-wrapper"><img src="${item.img}" alt="Axis Grid"></div>` : '';
-        let tipHTML = item.tip ? `<div class="q-tip"><span>💡</span><div>${item.tip}</div></div>` : '';
-        
-        if (item.type === "multipart") {
-            let subsHTML = `<div class="subquestions-container">`;
-            item.subquestions.forEach((sub) => {
+        testData.questions.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            let imageHTML = '';
+            if (item.img) {
+                imageHTML = `
+                    <div class="q-image-wrapper">
+                        <img src="${item.img}" alt="Question Axis Component Grid">
+                    </div>`;
+            }
+
+            let tipHTML = '';
+            if (item.tip) {
+                tipHTML = `
+                    <div class="q-tip">
+                        <span>💡</span>
+                        <div>${item.tip}</div>
+                    </div>`;
+            }
+            
+            if (item.type === "multipart") {
+                let subsHTML = `<div class="subquestions-container">`;
+                item.subquestions.forEach((sub) => {
+                    let inputsHTML = `<div class="inputs-wrapper">`;
+                    sub.inputs.forEach((label, i) => {
+                        inputsHTML += `
+                            <div class="input-group">
+                                ${sub.inputs.length > 1 ? `<span class="input-prefix">${label}:</span>` : ''}
+                                <input type="text" placeholder="Type data..." id="ans-${item.id}-${sub.subId}-${i}">
+                            </div>`;
+                    });
+                    inputsHTML += `</div>`;
+
+                    subsHTML += `
+                        <div class="sub-item">
+                            <div class="sub-q-text"><strong>${sub.subId}:</strong> ${sub.q}</div>
+                            ${inputsHTML}
+                            <button id="sol-btn-${item.id}-${sub.subId}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}-${sub.subId}')">VIEW CORRECTION METHOD</button>
+                            <div id="drawer-${item.id}-${sub.subId}" class="correction-drawer">
+                                <div class="correction-content">
+                                    <div class="correction-title">Analysis & Methods (${sub.subId})</div>
+                                    <div>${sub.solution || "No correction track loaded."}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                subsHTML += `</div>`;
+
+                card.innerHTML = `
+                    <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
+                    ${imageHTML}
+                    ${tipHTML}
+                    ${subsHTML}
+                `;
+            } else {
+                let inputLabels = item.inputs || ["Answer"];
                 let inputsHTML = `<div class="inputs-wrapper">`;
-                sub.inputs.forEach((label, i) => {
+                inputLabels.forEach((label, i) => {
                     inputsHTML += `
                         <div class="input-group">
-                            ${sub.inputs.length > 1 ? `<span class="input-prefix">${label}:</span>` : ''}
-                            <input type="text" placeholder="Type data..." id="ans-${item.id}-${sub.subId}-${i}">
+                            ${inputLabels.length > 1 ? `<span class="input-prefix">${label}:</span>` : ''}
+                            <input type="text" placeholder="Type data..." id="ans-${item.id}-${i}">
                         </div>`;
                 });
                 inputsHTML += `</div>`;
 
-                subsHTML += `
-                    <div class="sub-item">
-                        <div class="sub-q-text"><strong>${sub.subId}:</strong> ${sub.q}</div>
-                        ${inputsHTML}
-                        <button id="sol-btn-${item.id}-${sub.subId}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}-${sub.subId}')">VIEW CORRECTION METHOD</button>
-                        <div id="drawer-${item.id}-${sub.subId}" class="correction-drawer">
-                            <div class="correction-content">
-                                <div class="correction-title">Analysis & Methods (${sub.subId})</div>
-                                <div>${sub.solution || "No correction track loaded."}</div>
-                            </div>
+                card.innerHTML = `
+                    <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
+                    ${imageHTML}
+                    ${tipHTML}
+                    ${inputsHTML}
+                    <button id="sol-btn-${item.id}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}')">VIEW CORRECTION METHOD</button>
+                    <div id="drawer-${item.id}" class="correction-drawer">
+                        <div class="correction-content">
+                            <div class="correction-title">Analysis & Methods</div>
+                            <div>${item.solution || "No correction track loaded."}</div>
                         </div>
-                    </div>`;
-            });
-            subsHTML += `</div>`;
-            card.innerHTML = `<div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>${imageHTML}${tipHTML}${subsHTML}`;
-        } else {
-            let inputLabels = item.inputs || ["Answer"];
-            let inputsHTML = `<div class="inputs-wrapper">`;
-            inputLabels.forEach((label, i) => {
-                inputsHTML += `
-                    <div class="input-group">
-                        ${inputLabels.length > 1 ? `<span class="input-prefix">${label}:</span>` : ''}
-                        <input type="text" placeholder="Type data..." id="ans-${item.id}-${i}">
-                    </div>`;
-            });
-            inputsHTML += `</div>`;
-            card.innerHTML = `
-                <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
-                ${imageHTML}${tipHTML}${inputsHTML}
-                <button id="sol-btn-${item.id}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}')">VIEW CORRECTION METHOD</button>
-                <div id="drawer-${item.id}" class="correction-drawer">
-                    <div class="correction-content">
-                        <div class="correction-title">Analysis & Methods</div>
-                        <div>${item.solution || "No correction track loaded."}</div>
                     </div>
-                </div>`;
-        }
-        container.appendChild(card);
-    });
-    MathJax.typesetPromise();
-}
-
-function validateAnswer(userVal, correctVal) {
-    let cleanUser = userVal.trim().toLowerCase().replace(/\s+/g, '');
-    if (!cleanUser) return false;
-    
-    if (Array.isArray(correctVal) && correctVal.length === 2 && typeof correctVal[0] === 'number') {
-        let userNum = parseFloat(cleanUser.replace(/[^\d.-]/g, ''));
-        if (isNaN(userNum)) return false;
-        return userNum >= correctVal[0] && userNum <= correctVal[1];
-    }
-    
-    if (Array.isArray(correctVal)) {
-        return correctVal.some(option => {
-            let cleanOption = String(option).trim().toLowerCase().replace(/\s+/g, '');
-            if (cleanUser === cleanOption) return true;
-            let uRaw = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
-            let oRaw = cleanOption.includes('=') ? cleanOption.split('=')[1] : cleanOption;
-            return uRaw === oRaw && uRaw !== "";
+                `;
+            }
+            container.appendChild(card);
         });
+        
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
     }
-    
-    let cleanCorrect = String(correctVal).trim().toLowerCase().replace(/\s+/g, '');
-    if (cleanUser === cleanCorrect) return true;
-    let userRawValue = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
-    let correctRawValue = cleanCorrect.includes('=') ? cleanCorrect.split('=')[1] : cleanCorrect;
-    return userRawValue === correctRawValue && userRawValue !== "";
-}
 
-function varColor(varName) {
-    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-}
+    function validateAnswer(userVal, correctVal) {
+        let cleanUser = userVal.trim().toLowerCase().replace(/\s+/g, '');
+        
+        if (Array.isArray(correctVal) && correctVal.length === 2 && typeof correctVal[0] === 'number') {
+            let userNum = parseFloat(cleanUser.replace(/[^\d.-]/g, ''));
+            if (isNaN(userNum)) return false;
+            return userNum >= correctVal[0] && userNum <= correctVal[1];
+        }
+        
+        if (Array.isArray(correctVal)) {
+            return correctVal.some(option => {
+                let cleanOption = String(option).trim().toLowerCase().replace(/\s+/g, '');
+                if (cleanUser === cleanOption) return true;
+                let uRaw = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
+                let oRaw = cleanOption.includes('=') ? cleanOption.split('=')[1] : cleanOption;
+                return uRaw === oRaw && uRaw !== "";
+            });
+        }
+        
+        let cleanCorrect = String(correctVal).trim().toLowerCase().replace(/\s+/g, '');
+        if (cleanUser === cleanCorrect) return true;
+        
+        let userRawValue = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
+        let correctRawValue = cleanCorrect.includes('=') ? cleanCorrect.split('=')[1] : cleanCorrect;
+        
+        return userRawValue === correctRawValue && userRawValue !== "";
+    }
 
-function toggleSolution(combinedId) {
-    const drawer = document.getElementById(`drawer-${combinedId}`);
-    drawer.style.maxHeight = (drawer.style.maxHeight && drawer.style.maxHeight !== "0px") ? "0px" : drawer.scrollHeight + "px";
-}
-
-function showSystemMsg(title, body) {
-    const savedName = localStorage.getItem('playerName') || "Candidate";
-    const overlay = document.getElementById('system-overlay');
-    document.getElementById('msg-title').innerText = title;
-    document.getElementById('msg-body').innerText = `Salutations, ${savedName}. ${body}`;
-    overlay.style.display = 'flex';
-    setTimeout(() => { overlay.style.opacity = '1'; }, 10);
-}
-
-function closeSystemMsg() {
-    const overlay = document.getElementById('system-overlay');
-    overlay.style.opacity = '0';
-    setTimeout(() => { overlay.style.display = 'none'; }, 500);
-}
-
-window.onload = loadTest;
-</script>
-
-<!-- Combined Firebase Telemetry Module -->
-<script type="module">
-  import { db } from '../../src/firebase.config.js';
-  import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  window.submitTest = async function() {
-    let grandTotalPoints = 0;
-    let totalEarnedPoints = 0;
-    const wrongQuestions = [];
-
-    testData.questions.forEach((item) => {
-        if (item.type === "multipart") {
-            item.subquestions.forEach((sub) => {
-                let subPassed = true;
-                sub.inputs.forEach((_, i) => {
+    async function submitTest() {
+        let grandTotalPoints = 0;
+        let totalEarnedPoints = 0;
+        const wrongQuestionsList = [];
+        
+        testData.questions.forEach((item) => {
+            if (item.type === "multipart") {
+                item.subquestions.forEach((sub) => {
+                    sub.inputs.forEach((_, i) => {
+                        grandTotalPoints++;
+                        const inputField = document.getElementById(`ans-${item.id}-${sub.subId}-${i}`);
+                        const uVal = inputField.value;
+                        const cVal = sub.ans[i] !== undefined ? sub.ans[i] : sub.ans;
+                        const qIdentifier = `Q${item.id}_${sub.subId}_${i}`;
+                        
+                        if (validateAnswer(uVal, cVal)) {
+                            inputField.style.borderColor = varColor('--success-green');
+                            inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
+                            totalEarnedPoints++;
+                        } else {
+                            inputField.style.borderColor = varColor('--error-red');
+                            inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
+                            wrongQuestionsList.push(qIdentifier);
+                            
+                            if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
+                                inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
+                            } else if (Array.isArray(cVal)) {
+                                inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
+                            } else {
+                                inputField.placeholder = `Expected: ${cVal}`;
+                            }
+                        }
+                        inputField.disabled = true;
+                    });
+                    document.getElementById(`sol-btn-${item.id}-${sub.subId}`).style.display = "inline-block";
+                });
+            } else {
+                let inputLabels = item.inputs || ["Answer"];
+                inputLabels.forEach((_, i) => {
                     grandTotalPoints++;
-                    const inputField = document.getElementById(`ans-${item.id}-${sub.subId}-${i}`);
-                    const uVal = inputField ? inputField.value : "";
-                    const cVal = sub.ans[i] !== undefined ? sub.ans[i] : sub.ans;
+                    const inputField = document.getElementById(`ans-${item.id}-${i}`);
+                    const uVal = inputField.value;
+                    const cVal = item.ans[i] !== undefined ? item.ans[i] : item.ans;
+                    const qIdentifier = `Q${item.id}_${i}`;
                     
                     if (validateAnswer(uVal, cVal)) {
                         inputField.style.borderColor = varColor('--success-green');
                         inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
                         totalEarnedPoints++;
                     } else {
-                        subPassed = false;
                         inputField.style.borderColor = varColor('--error-red');
                         inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
+                        wrongQuestionsList.push(qIdentifier);
+                        
                         if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
                             inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
                         } else if (Array.isArray(cVal)) {
@@ -654,77 +745,75 @@ window.onload = loadTest;
                     }
                     inputField.disabled = true;
                 });
-
-                if (!subPassed) wrongQuestions.push(`${item.id}.${sub.subId}`);
-                document.getElementById(`sol-btn-${item.id}-${sub.subId}`).style.display = "inline-block";
-            });
-        } else {
-            let inputLabels = item.inputs || ["Answer"];
-            let questionPassed = true;
-            inputLabels.forEach((_, i) => {
-                grandTotalPoints++;
-                const inputField = document.getElementById(`ans-${item.id}-${i}`);
-                const uVal = inputField ? inputField.value : "";
-                const cVal = item.ans[i] !== undefined ? item.ans[i] : item.ans;
-                
-                if (validateAnswer(uVal, cVal)) {
-                    inputField.style.borderColor = varColor('--success-green');
-                    inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
-                    totalEarnedPoints++;
-                } else {
-                    questionPassed = false;
-                    inputField.style.borderColor = varColor('--error-red');
-                    inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
-                    if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
-                        inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
-                    } else if (Array.isArray(cVal)) {
-                        inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
-                    } else {
-                        inputField.placeholder = `Expected: ${cVal}`;
-                    }
-                }
-                inputField.disabled = true;
-            });
-
-            if (!questionPassed) wrongQuestions.push(`${item.id}`);
-            document.getElementById(`sol-btn-${item.id}`).style.display = "inline-block";
+                document.getElementById('sol-btn-' + item.id).style.display = "inline-block";
+            }
+        });
+        
+        const scoreContainer = document.getElementById('result-score');
+        scoreContainer.style.display = "block";
+        document.getElementById('score-value').innerText = totalEarnedPoints;
+        document.getElementById('total-value').innerText = grandTotalPoints;
+        
+        // Disable submit button to prevent duplicate submissions
+        const submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) {
+            submitBtn.innerText = "SYNCED";
+            submitBtn.disabled = true;
         }
+
+        // --- FIREBASE FIRESTORE TELEMETRY PUSH ---
+        await saveAssessmentResult({
+            testId: testData.testId,
+            subject: testData.subject,
+            score: totalEarnedPoints,
+            totalQuestions: grandTotalPoints,
+            wrongQuestions: wrongQuestionsList
+        });
+
+        const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
+        if (percentage >= 80) {
+            showSystemMsg("Sync Complete", "Distinction Level achieved. The core logic is flawless. Astra Academy Database fully updated.");
+        } else if (percentage >= 50) {
+            showSystemMsg("System Warning", "Analysis passed, but interference detected. Review bad question logs to optimize performance.");
+        } else {
+            showSystemMsg("Critical Error", "Logic failure in the assessment phase. Reboot your study sequence and try again.");
+        }
+    }
+
+    function varColor(varName) {
+        return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    }
+
+    // Expose helpers globally for inline element onclick handlers
+    window.toggleSolution = function(combinedId) {
+        const drawer = document.getElementById(`drawer-${combinedId}`);
+        if (drawer.style.maxHeight && drawer.style.maxHeight !== "0px") {
+            drawer.style.maxHeight = "0px";
+        } else {
+            drawer.style.maxHeight = drawer.scrollHeight + "px";
+        }
+    };
+
+    window.showSystemMsg = function(title, body) {
+        const savedName = localStorage.getItem('playerName') || "Candidate";
+        const overlay = document.getElementById('system-overlay');
+        document.getElementById('msg-title').innerText = title;
+        document.getElementById('msg-body').innerText = `Salutations, ${savedName}. ${body}`;
+        overlay.style.display = 'flex';
+        setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+    };
+
+    window.closeSystemMsg = function() {
+        const overlay = document.getElementById('system-overlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => { overlay.style.display = 'none'; }, 500);
+    };
+
+    window.submitTest = submitTest;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadTest();
     });
-    
-    // Display local score updates
-    document.getElementById('result-score').style.display = "block";
-    document.getElementById('score-value').innerText = totalEarnedPoints;
-    document.getElementById('total-value').innerText = grandTotalPoints;
-    
-    const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
-    if (percentage >= 80) {
-        showSystemMsg("Sync Complete", "Distinction Level achieved. The core logic is flawless.");
-    } else if (percentage >= 50) {
-        showSystemMsg("System Warning", "Analysis passed, but interference detected. Review the nodes to reach peak performance.");
-    } else {
-        showSystemMsg("Critical Error", "Logic failure in the assessment phase. Reboot your study sequence and try again.");
-    }
-
-    // Push test analytics to Firestore
-    try {
-      const userId = localStorage.getItem('userId') || 'ANONYMOUS_RECRUIT';
-      const playerName = localStorage.getItem('playerName') || 'Recruit';
-
-      await addDoc(collection(db, "testResults"), {
-        userId: userId,
-        playerName: playerName,
-        testTitle: testData.title,
-        score: totalEarnedPoints,
-        totalQuestions: grandTotalPoints,
-        wrongQuestions: wrongQuestions,
-        timestamp: serverTimestamp()
-      });
-
-      console.log("[Astra System]: Telemetry synced to Firestore.");
-    } catch (err) {
-      console.error("[Astra System]: Telemetry push failed: ", err);
-    }
-  };
 </script>
 
 </body>
