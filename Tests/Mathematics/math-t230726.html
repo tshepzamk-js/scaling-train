@@ -6,7 +6,6 @@
     <title>Mathematics | Grade 12 Baseline</title>
     <style>
         :root {
-            /* Fallback runtime variables - overwritten dynamically via metadata flags */
             --accent-theme: #00d4ff; 
             --bg-dark: #030712; 
             --card-bg: rgba(255, 255, 255, 0.02);
@@ -25,8 +24,6 @@
             min-height: 100vh;
             padding: 40px 20px;
             box-sizing: border-box;
-            
-            /* High-End Background Design */
             background-image: 
                 radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
@@ -36,10 +33,7 @@
             background-attachment: fixed;
         }
 
-        .container {
-            width: 100%;
-            max-width: 750px;
-        }
+        .container { width: 100%; max-width: 750px; }
 
         .header {
             border-left: 4px solid var(--accent-theme);
@@ -51,7 +45,7 @@
         }
 
         h1 { 
-            color: var(--accent-theme); /* Title natively binds to matching rank color */
+            color: var(--accent-theme); 
             margin: 0; 
             font-size: 2.2rem; 
             letter-spacing: -0.02em;
@@ -89,14 +83,8 @@
             box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--accent-theme);
         }
 
-        .q-text {
-            font-size: 1.15rem;
-            margin-bottom: 20px;
-            line-height: 1.7;
-            color: #f1f5f9;
-        }
+        .q-text { font-size: 1.15rem; margin-bottom: 20px; line-height: 1.7; color: #f1f5f9; }
 
-        /* Question Tips styling */
         .q-tip {
             font-size: 0.9rem;
             color: var(--accent-theme);
@@ -111,7 +99,6 @@
             opacity: 0.85;
         }
 
-        /* Image Display Frame */
         .q-image-wrapper {
             margin: 15px 0 25px 0;
             border-radius: 12px;
@@ -123,14 +110,8 @@
             justify-content: center;
         }
 
-        .q-image-wrapper img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain;
-        }
+        .q-image-wrapper img { max-width: 100%; height: auto; display: block; object-fit: contain; }
 
-        /* Nested Layout for Subquestions */
         .subquestions-container {
             display: flex;
             flex-direction: column;
@@ -147,33 +128,13 @@
             border: 1px solid rgba(255, 255, 255, 0.02);
         }
 
-        .sub-q-text {
-            font-size: 1.05rem;
-            margin-bottom: 14px;
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
+        .sub-q-text { font-size: 1.05rem; margin-bottom: 14px; color: #cbd5e1; line-height: 1.6; }
 
-        .inputs-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 5px;
-        }
+        .inputs-wrapper { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 5px; }
 
-        .input-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            min-width: 150px;
-        }
+        .input-group { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 150px; }
 
-        .input-prefix {
-            font-size: 0.95rem;
-            color: #64748b;
-            font-weight: 600;
-        }
+        .input-prefix { font-size: 0.95rem; color: #64748b; font-weight: 600; }
 
         input[type="text"] {
             width: 100%;
@@ -189,12 +150,8 @@
             transition: all 0.2s ease;
         }
 
-        input:focus { 
-            border-color: var(--accent-theme); 
-            background: rgba(0, 0, 0, 0.6);
-        }
+        input:focus { border-color: var(--accent-theme); background: rgba(0, 0, 0, 0.6); }
 
-        /* FIXED CORRECTION DRAWER BUTTON UTILITIES */
         .toggle-solution-btn {
             background: transparent !important;
             border: 1px dashed rgba(255, 255, 255, 0.2) !important;
@@ -245,11 +202,7 @@
             letter-spacing: 1.5px;
         }
 
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
-        }
+        .controls { display: flex; justify-content: space-between; margin-top: 50px; }
 
         .action-btn {
             padding: 14px 30px;
@@ -324,13 +277,11 @@
 </div>
 
 <script>
-// --- MASTER STUDY CONFIGURATION DATA GRID ---
 const testData = {
     title: "Grade 12 Mathematics Baseline Diagnostic",
     meta: "Subject: Mathematics | Rank: S", 
     questions: [
         {
-            // Question 1: Algebra & Equations
             id: 1,
             type: "multipart",
             q: "Algebra & Equations",
@@ -354,12 +305,11 @@ const testData = {
                     q: "Solve for $x$: $\\sqrt{x + 4} = x - 2$",
                     inputs: ["x"],
                     ans: [["5", "x=5"]],
-                    solution: "Square both sides: $x + 4 = x^2 - 4x + 4 \\implies x^2 - 5x = 0 \\implies x(x - 5) = 0$. Validating options rejects $x = 0$ (since $\\sqrt{4} \\neq -2$), leaving $x = 5$."
+                    solution: "Square both sides: $x + 4 = x^2 - 4x + 4 \\implies x^2 - 5x = 0 \\implies x(x - 5) = 0$. Validating options rejects $x = 0$, leaving $x = 5$."
                 }
             ]
         },
         {
-            // Question 2: Patterns, Sequences & Series
             id: 2,
             type: "multipart",
             q: "Patterns, Sequences & Series",
@@ -395,7 +345,6 @@ const testData = {
             ]
         },
         {
-            // Question 3: Functions & Inverses
             id: 3,
             type: "multipart",
             q: "Functions & Inverses",
@@ -424,7 +373,6 @@ const testData = {
             ]
         },
         {
-            // Question 4: Finance, Growth & Decay
             id: 4,
             type: "multipart",
             q: "Finance, Growth & Decay",
@@ -447,7 +395,6 @@ const testData = {
             ]
         },
         {
-            // Question 5: Differential Calculus
             id: 5,
             type: "multipart",
             q: "Differential Calculus",
@@ -476,7 +423,6 @@ const testData = {
             ]
         },
         {
-            // Question 6: Trigonometry
             id: 6,
             type: "multipart",
             q: "Trigonometry",
@@ -486,7 +432,7 @@ const testData = {
                     q: "Simplify without using a calculator: $\\sin(180^\\circ - \\theta) \\cdot \\cos(90^\\circ - \\theta) + \\cos^2\\theta$",
                     inputs: ["Value"],
                     ans: [["1"]],
-                    solution: "$\\sin(180^\\circ - \\theta) = \\sin\\theta$ and $\\cos(90^\\circ - \\theta) = \\sin\\theta$. Thus, $\\sin\\theta \\cdot \\sin\\theta + \\cos^2\\theta = \\sin^2\\theta + \\cos^2\\theta = 1$."
+                    solution: "$\\sin(180^\\circ - \\theta) = \\sin\\theta$ and $\\cos(90^\\circ - \\theta) = \\sin\\theta$. Thus, $\\sin^2\\theta + \\cos^2\\theta = 1$."
                 },
                 {
                     subId: "6.2",
@@ -498,7 +444,6 @@ const testData = {
             ]
         },
         {
-            // Question 7: Analytical Geometry
             id: 7,
             type: "multipart",
             q: "Analytical Geometry (Given $A(-2, 1)$ and $B(4, 5)$)",
@@ -529,18 +474,10 @@ const testData = {
     ]
 };
 
-// --- CORE ENGINE LOGIC ---
-
 function initializeTheme() {
     const metaText = testData.meta;
     let themeColor = "#00d4ff"; 
-    
-    const rankColors = {
-        'sss': '#ff0000', 'ss': '#ffaa00', 's': '#f8d7da',   
-        'a': '#ffe5d0',   'b': '#fff3cd',  'c': '#d1e7dd',   
-        'd': '#d0e7ff',   'e': '#f0f0f0'    
-    };
-
+    const rankColors = { 'sss': '#ff0000', 'ss': '#ffaa00', 's': '#f8d7da', 'a': '#ffe5d0', 'b': '#fff3cd', 'c': '#d1e7dd', 'd': '#d0e7ff', 'e': '#f0f0f0' };
     const rankMatch = metaText.match(/Rank\s*:\s*([a-z]+)/i);
     let updatedMetaHTML = metaText;
 
@@ -548,8 +485,7 @@ function initializeTheme() {
         const targetRank = rankMatch[1].toLowerCase();
         if (rankColors[targetRank]) {
             themeColor = rankColors[targetRank];
-            const matchedString = rankMatch[0];
-            updatedMetaHTML = metaText.replace(matchedString, `<span class="rank-highlight">${matchedString}</span>`);
+            updatedMetaHTML = metaText.replace(rankMatch[0], `<span class="rank-highlight">${rankMatch[0]}</span>`);
         }
     }
 
@@ -561,7 +497,6 @@ function initializeTheme() {
 function loadTest() {
     initializeTheme();
     document.getElementById('test-title').innerText = testData.title;
-
     const container = document.getElementById('questions-container');
     container.innerHTML = '';
     
@@ -569,22 +504,8 @@ function loadTest() {
         const card = document.createElement('div');
         card.className = 'question-card';
         
-        let imageHTML = '';
-        if (item.img) {
-            imageHTML = `
-                <div class="q-image-wrapper">
-                    <img src="${item.img}" alt="Question Axis Component Grid">
-                </div>`;
-        }
-
-        let tipHTML = '';
-        if (item.tip) {
-            tipHTML = `
-                <div class="q-tip">
-                    <span>💡</span>
-                    <div>${item.tip}</div>
-                </div>`;
-        }
+        let imageHTML = item.img ? `<div class="q-image-wrapper"><img src="${item.img}" alt="Axis Grid"></div>` : '';
+        let tipHTML = item.tip ? `<div class="q-tip"><span>💡</span><div>${item.tip}</div></div>` : '';
         
         if (item.type === "multipart") {
             let subsHTML = `<div class="subquestions-container">`;
@@ -613,13 +534,7 @@ function loadTest() {
                     </div>`;
             });
             subsHTML += `</div>`;
-
-            card.innerHTML = `
-                <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
-                ${imageHTML}
-                ${tipHTML}
-                ${subsHTML}
-            `;
+            card.innerHTML = `<div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>${imageHTML}${tipHTML}${subsHTML}`;
         } else {
             let inputLabels = item.inputs || ["Answer"];
             let inputsHTML = `<div class="inputs-wrapper">`;
@@ -631,38 +546,32 @@ function loadTest() {
                     </div>`;
             });
             inputsHTML += `</div>`;
-
             card.innerHTML = `
                 <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
-                ${imageHTML}
-                ${tipHTML}
-                ${inputsHTML}
+                ${imageHTML}${tipHTML}${inputsHTML}
                 <button id="sol-btn-${item.id}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}')">VIEW CORRECTION METHOD</button>
                 <div id="drawer-${item.id}" class="correction-drawer">
                     <div class="correction-content">
                         <div class="correction-title">Analysis & Methods</div>
                         <div>${item.solution || "No correction track loaded."}</div>
                     </div>
-                </div>
-            `;
+                </div>`;
         }
         container.appendChild(card);
     });
-    
     MathJax.typesetPromise();
 }
 
 function validateAnswer(userVal, correctVal) {
     let cleanUser = userVal.trim().toLowerCase().replace(/\s+/g, '');
+    if (!cleanUser) return false;
     
-    // 1. INTERVAL RANGE CONFIG: Check boundaries if exact numerical double array [min, max]
     if (Array.isArray(correctVal) && correctVal.length === 2 && typeof correctVal[0] === 'number') {
         let userNum = parseFloat(cleanUser.replace(/[^\d.-]/g, ''));
         if (isNaN(userNum)) return false;
         return userNum >= correctVal[0] && userNum <= correctVal[1];
     }
     
-    // 2. THE OR FACTOR LOGIC: Parse sub-arrays to handle decimal vs fraction combinations seamlessly
     if (Array.isArray(correctVal)) {
         return correctVal.some(option => {
             let cleanOption = String(option).trim().toLowerCase().replace(/\s+/g, '');
@@ -673,92 +582,11 @@ function validateAnswer(userVal, correctVal) {
         });
     }
     
-    // 3. STANDARD STRING CHECK
     let cleanCorrect = String(correctVal).trim().toLowerCase().replace(/\s+/g, '');
     if (cleanUser === cleanCorrect) return true;
-    
     let userRawValue = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
     let correctRawValue = cleanCorrect.includes('=') ? cleanCorrect.split('=')[1] : cleanCorrect;
-    
     return userRawValue === correctRawValue && userRawValue !== "";
-}
-
-function submitTest() {
-    let grandTotalPoints = 0;
-    let totalEarnedPoints = 0;
-    
-    testData.questions.forEach((item) => {
-        if (item.type === "multipart") {
-            item.subquestions.forEach((sub) => {
-                sub.inputs.forEach((_, i) => {
-                    grandTotalPoints++;
-                    const inputField = document.getElementById(`ans-${item.id}-${sub.subId}-${i}`);
-                    const uVal = inputField.value;
-                    const cVal = sub.ans[i] !== undefined ? sub.ans[i] : sub.ans;
-                    
-                    if (validateAnswer(uVal, cVal)) {
-                        inputField.style.borderColor = varColor('--success-green');
-                        inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
-                        totalEarnedPoints++;
-                    } else {
-                        inputField.style.borderColor = varColor('--error-red');
-                        inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
-                        
-                        if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
-                            inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
-                        } else if (Array.isArray(cVal)) {
-                            inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
-                        } else {
-                            inputField.placeholder = `Expected: ${cVal}`;
-                        }
-                    }
-                    inputField.disabled = true;
-                });
-                document.getElementById(`sol-btn-${item.id}-${sub.subId}`).style.display = "inline-block";
-            });
-        } else {
-            let inputLabels = item.inputs || ["Answer"];
-            inputLabels.forEach((_, i) => {
-                grandTotalPoints++;
-                const inputField = document.getElementById(`ans-${item.id}-${i}`);
-                const uVal = inputField.value;
-                const cVal = item.ans[i] !== undefined ? item.ans[i] : item.ans;
-                
-                if (validateAnswer(uVal, cVal)) {
-                    inputField.style.borderColor = varColor('--success-green');
-                    inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
-                    totalEarnedPoints++;
-                } else {
-                    inputField.style.borderColor = varColor('--error-red');
-                    inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
-                    
-                    if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
-                        inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
-                    } else if (Array.isArray(cVal)) {
-                        inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
-                    } else {
-                        inputField.placeholder = `Expected: ${cVal}`;
-                    }
-                }
-                inputField.disabled = true;
-            });
-            document.getElementById('sol-btn-' + item.id).style.display = "inline-block";
-        }
-    });
-    
-    const scoreContainer = document.getElementById('result-score');
-    scoreContainer.style.display = "block";
-    document.getElementById('score-value').innerText = totalEarnedPoints;
-    document.getElementById('total-value').innerText = grandTotalPoints;
-    
-    const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
-    if (percentage >= 80) {
-        showSystemMsg("Sync Complete", "Distinction Level achieved. The core logic is flawless.");
-    } else if (percentage >= 50) {
-        showSystemMsg("System Warning", "Analysis passed, but interference detected. Review the nodes to reach peak performance.");
-    } else {
-        showSystemMsg("Critical Error", "Logic failure in the assessment phase. Reboot your study sequence and try again.");
-    }
 }
 
 function varColor(varName) {
@@ -767,11 +595,7 @@ function varColor(varName) {
 
 function toggleSolution(combinedId) {
     const drawer = document.getElementById(`drawer-${combinedId}`);
-    if (drawer.style.maxHeight && drawer.style.maxHeight !== "0px") {
-        drawer.style.maxHeight = "0px";
-    } else {
-        drawer.style.maxHeight = drawer.scrollHeight + "px";
-    }
+    drawer.style.maxHeight = (drawer.style.maxHeight && drawer.style.maxHeight !== "0px") ? "0px" : drawer.scrollHeight + "px";
 }
 
 function showSystemMsg(title, body) {
@@ -789,9 +613,118 @@ function closeSystemMsg() {
     setTimeout(() => { overlay.style.display = 'none'; }, 500);
 }
 
-window.onload = () => {
-    loadTest();
-};
+window.onload = loadTest;
+</script>
+
+<!-- Combined Firebase Telemetry Module -->
+<script type="module">
+  import { db } from '../../src/firebase.config.js';
+  import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  window.submitTest = async function() {
+    let grandTotalPoints = 0;
+    let totalEarnedPoints = 0;
+    const wrongQuestions = [];
+
+    testData.questions.forEach((item) => {
+        if (item.type === "multipart") {
+            item.subquestions.forEach((sub) => {
+                let subPassed = true;
+                sub.inputs.forEach((_, i) => {
+                    grandTotalPoints++;
+                    const inputField = document.getElementById(`ans-${item.id}-${sub.subId}-${i}`);
+                    const uVal = inputField ? inputField.value : "";
+                    const cVal = sub.ans[i] !== undefined ? sub.ans[i] : sub.ans;
+                    
+                    if (validateAnswer(uVal, cVal)) {
+                        inputField.style.borderColor = varColor('--success-green');
+                        inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
+                        totalEarnedPoints++;
+                    } else {
+                        subPassed = false;
+                        inputField.style.borderColor = varColor('--error-red');
+                        inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
+                        if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
+                            inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
+                        } else if (Array.isArray(cVal)) {
+                            inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
+                        } else {
+                            inputField.placeholder = `Expected: ${cVal}`;
+                        }
+                    }
+                    inputField.disabled = true;
+                });
+
+                if (!subPassed) wrongQuestions.push(`${item.id}.${sub.subId}`);
+                document.getElementById(`sol-btn-${item.id}-${sub.subId}`).style.display = "inline-block";
+            });
+        } else {
+            let inputLabels = item.inputs || ["Answer"];
+            let questionPassed = true;
+            inputLabels.forEach((_, i) => {
+                grandTotalPoints++;
+                const inputField = document.getElementById(`ans-${item.id}-${i}`);
+                const uVal = inputField ? inputField.value : "";
+                const cVal = item.ans[i] !== undefined ? item.ans[i] : item.ans;
+                
+                if (validateAnswer(uVal, cVal)) {
+                    inputField.style.borderColor = varColor('--success-green');
+                    inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
+                    totalEarnedPoints++;
+                } else {
+                    questionPassed = false;
+                    inputField.style.borderColor = varColor('--error-red');
+                    inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
+                    if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
+                        inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
+                    } else if (Array.isArray(cVal)) {
+                        inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
+                    } else {
+                        inputField.placeholder = `Expected: ${cVal}`;
+                    }
+                }
+                inputField.disabled = true;
+            });
+
+            if (!questionPassed) wrongQuestions.push(`${item.id}`);
+            document.getElementById(`sol-btn-${item.id}`).style.display = "inline-block";
+        }
+    });
+    
+    // Display local score updates
+    document.getElementById('result-score').style.display = "block";
+    document.getElementById('score-value').innerText = totalEarnedPoints;
+    document.getElementById('total-value').innerText = grandTotalPoints;
+    
+    const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
+    if (percentage >= 80) {
+        showSystemMsg("Sync Complete", "Distinction Level achieved. The core logic is flawless.");
+    } else if (percentage >= 50) {
+        showSystemMsg("System Warning", "Analysis passed, but interference detected. Review the nodes to reach peak performance.");
+    } else {
+        showSystemMsg("Critical Error", "Logic failure in the assessment phase. Reboot your study sequence and try again.");
+    }
+
+    // Push test analytics to Firestore
+    try {
+      const userId = localStorage.getItem('userId') || 'ANONYMOUS_RECRUIT';
+      const playerName = localStorage.getItem('playerName') || 'Recruit';
+
+      await addDoc(collection(db, "testResults"), {
+        userId: userId,
+        playerName: playerName,
+        testTitle: testData.title,
+        score: totalEarnedPoints,
+        totalQuestions: grandTotalPoints,
+        wrongQuestions: wrongQuestions,
+        timestamp: serverTimestamp()
+      });
+
+      console.log("[Astra System]: Telemetry synced to Firestore.");
+    } catch (err) {
+      console.error("[Astra System]: Telemetry push failed: ", err);
+    }
+  };
 </script>
 
 </body>
