@@ -48,6 +48,37 @@
             background: linear-gradient(to right, rgba(255, 255, 255, 0.01), transparent);
             border-radius: 4px;
             transition: border-color 0.5s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info {
+            flex-grow: 1;
+        }
+
+        /* STOPWATCH DISPLAY STYLING */
+        .stopwatch-wrapper {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-theme);
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: 800;
+            color: var(--accent-theme);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .stopwatch-wrapper .timer-icon {
+            font-size: 1.1rem;
+        }
+
+        #stopwatch {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
         }
 
         h1 { 
@@ -283,6 +314,13 @@
             border-radius: 12px;
             border: 1px dashed rgba(255, 255, 255, 0.08);
         }
+
+        .time-tag {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            margin-top: 8px;
+            display: block;
+        }
     </style>
     
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -299,8 +337,14 @@
 
 <div class="container">
     <div class="header">
-        <h1 id="test-title">Loading...</h1>
-        <p id="test-meta">Subject: ...</p>
+        <div class="header-info">
+            <h1 id="test-title">Loading...</h1>
+            <p id="test-meta">Subject: ...</p>
+        </div>
+        <div class="stopwatch-wrapper">
+            <span class="timer-icon">⏱️</span>
+            <span id="stopwatch">00:00</span>
+        </div>
     </div>
 
     <div id="questions-container"></div>
@@ -315,6 +359,7 @@
 
     <div id="result-score">
         SYNC ACCURACY: <span id="score-value">0</span> / <span id="total-value">0</span>
+        <span class="time-tag">Time Elapsed: <span id="time-value">00:00</span></span>
     </div>
 
     <div class="controls">
@@ -324,6 +369,28 @@
 </div>
 
 <script>
+// --- STOPWATCH LOGIC ---
+let timerInterval = null;
+let secondsElapsed = 0;
+
+function startStopwatch() {
+    secondsElapsed = 0;
+    timerInterval = setInterval(() => {
+        secondsElapsed++;
+        document.getElementById('stopwatch').innerText = formatTime(secondsElapsed);
+    }, 1000);
+}
+
+function stopStopwatch() {
+    clearInterval(timerInterval);
+}
+
+function formatTime(totalSeconds) {
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
 // --- MASTER STUDY CONFIGURATION DATA GRID ---
 const testData = {
     title: "Grade 12 Mathematics Baseline Diagnostic",
@@ -643,6 +710,7 @@ function loadTest() {
     });
     
     MathJax.typesetPromise();
+    startStopwatch(); // Initialize Stopwatch on load
 }
 
 function validateAnswer(userVal, correctVal) {
@@ -677,6 +745,9 @@ function validateAnswer(userVal, correctVal) {
 }
 
 function submitTest() {
+    stopStopwatch(); // Halt Timer on completion
+    const totalCompletionTime = formatTime(secondsElapsed);
+    
     let grandTotalPoints = 0;
     let totalEarnedPoints = 0;
     
@@ -743,14 +814,15 @@ function submitTest() {
     scoreContainer.style.display = "block";
     document.getElementById('score-value').innerText = totalEarnedPoints;
     document.getElementById('total-value').innerText = grandTotalPoints;
+    document.getElementById('time-value').innerText = totalCompletionTime;
     
     const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
     if (percentage >= 80) {
-        showSystemMsg("Sync Complete", "Distinction Level achieved. The core logic is flawless. Meridian Prime is fully optimized.");
+        showSystemMsg("Sync Complete", `Distinction Level achieved in ${totalCompletionTime}. The core logic is flawless. Meridian Prime is fully optimized.`);
     } else if (percentage >= 50) {
-        showSystemMsg("System Warning", "Analysis passed, but interference detected. Review the nodes to reach peak performance.");
+        showSystemMsg("System Warning", `Analysis passed in ${totalCompletionTime}, but interference detected. Review the nodes to reach peak performance.`);
     } else {
-        showSystemMsg("Critical Error", "Logic failure in the assessment phase. Reboot your study sequence and try again.");
+        showSystemMsg("Critical Error", `Logic failure in the assessment phase (${totalCompletionTime}). Reboot your study sequence and try again.`);
     }
 }
 
