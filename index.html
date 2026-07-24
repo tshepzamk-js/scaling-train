@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astra Academy | Designation</title>
+    <!-- Orbitron Font[span_2](start_span)[span_2](end_span) -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-cyan: #00D4FF;
+            --bg-dark: #0B1B2A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -17,8 +26,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #0B1B2A;
-            font-family: sans-serif; /* Or your preferred font */
+            background-color: var(--bg-dark);
+            font-family: 'Orbitron', sans-serif;
             overflow: hidden;
         }
 
@@ -34,21 +43,33 @@
         .system-container {
             position: relative;
             z-index: 10;
-            background: #0A141EB3;
-            backdrop-filter: blur(10px);
+            background: rgba(10, 20, 30, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 2px solid var(--primary-cyan);
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             color: white;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.25);
+            border-radius: 4px;
         }
 
         .quest-header h2 {
             color: var(--primary-cyan);
             letter-spacing: 2px;
             text-shadow: 0 0 10px var(--primary-cyan);
-            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+        }
+
+        .quest-header p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .input-group {
@@ -57,49 +78,67 @@
 
         .input-group label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary-cyan);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         input {
             width: 100%;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid #333;
-            padding: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 12px 14px;
             color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
             outline: none;
-            box-sizing: border-box; /* Important for width alignment */
-            transition: 0.3s;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            border-radius: 2px;
         }
 
         input:focus {
             border-color: var(--primary-cyan);
-            box-shadow: 0 0 5px var(--primary-cyan);
+            box-shadow: 0 0 12px var(--primary-cyan);
+            background: rgba(0, 212, 255, 0.08);
         }
 
         .accept-btn {
             width: 100%;
-            padding: 12px;
-            background: transparent;
+            padding: 14px;
+            margin-top: 10px;
+            background: rgba(0, 212, 255, 0.1);
             border: 1px solid var(--primary-cyan);
             color: var(--primary-cyan);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.4s;
-            margin-top: 10px;
+            transition: all 0.3s ease;
+            clip-path: polygon(6% 0%, 100% 0%, 94% 100%, 0% 100%);
         }
 
         .accept-btn:hover {
             background: var(--primary-cyan);
-            color: black;
+            color: #030712;
             box-shadow: 0 0 20px var(--primary-cyan);
+        }
+
+        .accept-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
+    <!-- Background Animation Layer[span_3](start_span)[span_3](end_span) -->
     <div id="vanta-background"></div>
 
+    <!-- Interface Panel[span_4](start_span)[span_4](end_span) -->
     <div class="system-container">
         <div class="quest-header">
             <h2>[ QUEST: DESIGNATION ]</h2>
@@ -108,38 +147,25 @@
 
         <form class="signup-form">
             <div class="input-group">
-                <label>PLAYER NAME</label>
-                <input type="text" placeholder="Enter your name..." required>
+                <label for="playerName">PLAYER NAME</label>
+                <input 
+                    type="text" 
+                    id="playerName" 
+                    placeholder="Enter designation..." 
+                    autocomplete="off" 
+                    required
+                >
             </div>
 
             <button type="submit" class="accept-btn">ACCEPT</button>
         </form>
     </div>
 
+    <!-- External Libraries[span_5](start_span)[span_5](end_span) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const signupForm = document.querySelector('.signup-form');
-            
-            if (signupForm) {
-                signupForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    // Grab the name to use in the system later
-                    const playerName = signupForm.querySelector('input[type="text"]').value;
-                 
-                    localStorage.setItem('playerName', playerName);
-                    
-                    // Navigate to the next stage
-                    // Ensure this path matches your file structure exactly
-                    window.location.href = './Homepage/homepage.html';
-                });
-            }
-        });
-    </script>
-
+    <!-- Vanta Background Initialization[span_6](start_span)[span_6](end_span) -->
     <script>
         VANTA.NET({
             el: "#vanta-background",
@@ -155,6 +181,38 @@
             points: 10.00,
             maxDistance: 20.00,
             spacing: 15.00
+        });
+    </script>
+    
+    <!-- Form Submission Script with Initializing State & Local Storage[span_7](start_span)[span_7](end_span)[span_8](start_span)[span_8](end_span) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupForm = document.querySelector('.signup-form');
+
+            if (signupForm) {
+                signupForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const nameInput = document.getElementById('playerName');
+                    const playerName = nameInput ? nameInput.value.trim() : '';
+
+                    if (!playerName) return;
+
+                    const submitBtn = signupForm.querySelector('.accept-btn');
+                    if (submitBtn) {
+                        submitBtn.innerText = "INITIALIZING...";
+                        submitBtn.disabled = true;
+                    }
+
+                    // Save to local storage[span_9](start_span)[span_9](end_span)
+                    localStorage.setItem('playerName', playerName);
+
+                    // Redirect to Homepage[span_10](start_span)[span_10](end_span)[span_11](start_span)[span_11](end_span)
+                    setTimeout(() => {
+                        window.location.href = './Homepage/homepage.html';
+                    }, 400);
+                });
+            }
         });
     </script>
 </body>
