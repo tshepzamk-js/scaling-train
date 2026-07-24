@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics | Baseline Diagnostic</title>
+    <style>
+        :root {
+            /* Fallback runtime variables - overwritten dynamically via metadata flags */
+            --accent-theme: #00d4ff; 
+            --bg-dark: #030712; 
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --success-green: #2ecc71;
+            --error-red: #e74c3c;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            
+            /* High-End Background Design */
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.003) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.003) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+        }
+
+        .header {
+            border-left: 4px solid var(--accent-theme);
+            padding: 5px 0 5px 20px;
+            margin-bottom: 40px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.01), transparent);
+            border-radius: 4px;
+            transition: border-color 0.5s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info {
+            flex-grow: 1;
+        }
+
+        /* STOPWATCH DISPLAY STYLING */
+        .stopwatch-wrapper {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-theme);
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: 800;
+            color: var(--accent-theme);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+        }
+
+        .stopwatch-wrapper .timer-icon {
+            font-size: 1.1rem;
+        }
+
+        #stopwatch {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        h1 { 
+            color: var(--accent-theme); /* Title natively binds to matching rank color */
+            margin: 0; 
+            font-size: 2.2rem; 
+            letter-spacing: -0.02em;
+            font-weight: 800;
+            transition: color 0.5s ease;
+        }
+        
+        p { color: #94a3b8; margin-top: 8px; font-size: 0.95rem; }
+        
+        .rank-highlight {
+            color: var(--accent-theme);
+            font-weight: 900;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+            padding: 2px 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--accent-theme);
+            border-radius: 4px;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--accent-theme);
+        }
+
+        .q-text {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: #f1f5f9;
+        }
+
+        /* Question Tips styling */
+        .q-tip {
+            font-size: 0.9rem;
+            color: var(--accent-theme);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed var(--accent-theme);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            opacity: 0.85;
+        }
+
+        /* Image Display Frame */
+        .q-image-wrapper {
+            margin: 15px 0 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .q-image-wrapper img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Nested Layout for Subquestions */
+        .subquestions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 20px;
+            padding-left: 20px;
+            border-left: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .sub-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .sub-q-text {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .inputs-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 5px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .input-prefix {
+            font-size: 0.95rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 16px;
+            color: #ffffff;
+            border-radius: 10px;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        input:focus { 
+            border-color: var(--accent-theme); 
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* FIXED CORRECTION DRAWER BUTTON UTILITIES */
+        .toggle-solution-btn {
+            background: transparent !important;
+            border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+            color: #94a3b8 !important;
+            padding: 10px 18px !important;
+            border-radius: 8px !important;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            margin-top: 15px !important;
+            display: none; 
+            transition: all 0.2s ease !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            box-shadow: none !important;
+            -webkit-appearance: none;
+        }
+
+        .toggle-solution-btn:hover {
+            border-color: var(--accent-theme) !important;
+            color: var(--accent-theme) !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+        }
+
+        .correction-drawer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .correction-content {
+            padding: 20px;
+            border-left: 3px solid var(--accent-theme);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: #94a3b8;
+        }
+
+        .correction-title {
+            font-weight: 700;
+            color: var(--accent-theme);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+        .action-btn {
+            padding: 14px 30px;
+            background: transparent;
+            color: var(--accent-theme);
+            border: 1px solid var(--accent-theme);
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-theme);
+            color: #030712;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        #result-score {
+            margin-top: 30px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: 1.5px;
+            color: var(--accent-theme);
+            display: none;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+        }
+
+        .time-tag {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            margin-top: 8px;
+            display: block;
+        }
+    </style>
+    
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        }
+      };
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-info">
+            <h1 id="test-title">Loading...</h1>
+            <p id="test-meta">Subject: ...</p>
+        </div>
+        <div class="stopwatch-wrapper">
+            <span class="timer-icon">⏱️</span>
+            <span id="stopwatch">00:00</span>
+        </div>
+    </div>
+
+    <div id="questions-container"></div>
+
+    <div id="system-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(3,7,18,0.95); z-index:1000; display:none; justify-content:center; align-items:center; opacity:0; transition: 0.5s;">
+        <div id="message-box" style="background:#0c1020; border: 2px solid var(--accent-theme); padding: 40px; border-radius: 24px; text-align:center; box-shadow: 0 0 50px rgba(0,0,0,0.8); max-width: 80%;">
+            <h2 id="msg-title" style="color:var(--accent-theme); text-transform:uppercase; letter-spacing:3px; margin-top:0;"></h2>
+            <p id="msg-body" style="font-size:1.1rem; line-height:1.6; color:#cbd5e1;"></p>
+            <button class="action-btn" onclick="closeSystemMsg()" style="margin-top:20px;">SESSION COMPLETE</button>
+        </div>
+    </div>
+
+    <div id="result-score">
+        SYNC ACCURACY: <span id="score-value">0</span> / <span id="total-value">0</span>
+        <span class="time-tag">Time Elapsed: <span id="time-value">00:00</span></span>
+    </div>
+
+    <div class="controls">
+        <button class="action-btn" onclick="location.href='../../test-hub.html'">BACK TO HUB</button>
+        <button class="action-btn" onclick="submitTest()">SUBMIT ANSWERS</button>
+    </div>
+</div>
+
+<script>
+// --- STOPWATCH LOGIC ---
+let timerInterval = null;
+let secondsElapsed = 0;
+
+function startStopwatch() {
+    secondsElapsed = 0;
+    timerInterval = setInterval(() => {
+        secondsElapsed++;
+        document.getElementById('stopwatch').innerText = formatTime(secondsElapsed);
+    }, 1000);
+}
+
+function stopStopwatch() {
+    clearInterval(timerInterval);
+}
+
+function formatTime(totalSeconds) {
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// --- MASTER STUDY CONFIGURATION DATA GRID ---
+const testData = {
+    title: "Grade 12 Mathematics Baseline Diagnostic",
+    meta: "Subject: Mathematics | Rank: A", 
+    questions: [
+        {
+            id: 1,
+            type: "multipart",
+            q: "Algebra & Equations",
+            subquestions: [
+                {
+                    subId: "1.1.1",
+                    q: "Solve for $x$: $(x - 3)(x + 2) = 0$",
+                    inputs: ["x_1", "x_2"],
+                    ans: [["3", "x=3"], ["-2", "x=-2"]],
+                    solution: "Setting each factor to zero gives $x - 3 = 0 \\implies x = 3$ or $x + 2 = 0 \\implies x = -2$."
+                },
+                {
+                    subId: "1.1.2",
+                    q: "Solve for $x$: $2x^2 - 5x - 3 = 0$",
+                    inputs: ["x_1", "x_2"],
+                    ans: [["-0.5", "-1/2", "x=-1/2", "x=-0.5"], ["3", "x=3"]],
+                    solution: "Factorizing gives $(2x + 1)(x - 3) = 0$, yielding $x = -\\frac{1}{2}$ or $x = 3$."
+                },
+                {
+                    subId: "1.1.3",
+                    q: "Solve for $x$: $\\sqrt{x + 4} = x - 2$",
+                    inputs: ["x"],
+                    ans: [["5", "x=5"]],
+                    solution: "Square both sides: $x + 4 = x^2 - 4x + 4 \\implies x^2 - 5x = 0 \\implies x(x - 5) = 0$. Validating options rejects $x = 0$, leaving $x = 5$."
+                }
+            ]
+        },
+        {
+            id: 2,
+            type: "multipart",
+            q: "Patterns, Sequences & Series",
+            subquestions: [
+                {
+                    subId: "2.1.1",
+                    q: "Given the arithmetic sequence $3; 7; 11; 15; \\dots$, determine the general term ($T_n$).",
+                    inputs: ["T_n"],
+                    ans: [["4n-1", "4n - 1"]],
+                    solution: "$a = 3$, $d = 4$. $T_n = a + (n - 1)d = 3 + 4(n - 1) = 4n - 1$."
+                },
+                {
+                    subId: "2.1.2",
+                    q: "Calculate the $20^{\\text{th}}$ term ($T_{20}$) of the sequence above.",
+                    inputs: ["T_{20}"],
+                    ans: [["79"]],
+                    solution: "$T_{20} = 4(20) - 1 = 80 - 1 = 79$."
+                },
+                {
+                    subId: "2.2.1",
+                    q: "Given a geometric series where $a = 5$ and $r = 2$, calculate the sum of the first 6 terms ($S_6$).",
+                    inputs: ["S_6"],
+                    ans: [["315"]],
+                    solution: "$S_6 = \\frac{a(r^6 - 1)}{r - 1} = \\frac{5(2^6 - 1)}{2 - 1} = 5(63) = 315$."
+                },
+                {
+                    subId: "2.2.2",
+                    q: "State the condition for a geometric series to converge.",
+                    inputs: ["Condition"],
+                    ans: [["-1<r<1", "|r|<1", "-1 < r < 1"]],
+                    solution: "A geometric series converges when the common ratio $r$ falls strictly between $-1$ and $1$ (i.e., $|r| < 1$)."
+                }
+            ]
+        },
+        {
+            id: 3,
+            type: "multipart",
+            q: "Functions & Inverses",
+            subquestions: [
+                {
+                    subId: "3.1.1",
+                    q: "Given $f(x) = 2x + 4$, write down the equation of $f^{-1}(x)$ in terms of $y$.",
+                    inputs: ["y"],
+                    ans: [["(x-4)/2", "0.5x-2", "x/2-2", "1/2x-2"]],
+                    solution: "Swap $x$ and $y$: $x = 2y + 4 \\implies 2y = x - 4 \\implies y = \\frac{x - 4}{2}$."
+                },
+                {
+                    subId: "3.2.1",
+                    q: "Given the exponential function $g(x) = 3^x - 1$, write down the equation of its horizontal asymptote.",
+                    inputs: ["Asymptote"],
+                    ans: [["y=-1", "-1"]],
+                    solution: "The horizontal shift constant defines the asymptote: $y = -1$."
+                },
+                {
+                    subId: "3.2.2",
+                    q: "Determine the $y$-intercept of $g(x) = 3^x - 1$.",
+                    inputs: ["y-intercept"],
+                    ans: [["0", "(0,0)", "y=0"]],
+                    solution: "Set $x = 0$: $g(0) = 3^0 - 1 = 1 - 1 = 0$."
+                }
+            ]
+        },
+        {
+            id: 4,
+            type: "multipart",
+            q: "Finance, Growth & Decay",
+            tip: "Round all final financial calculations to 2 decimal places where applicable.",
+            subquestions: [
+                {
+                    subId: "4.1",
+                    q: "An amount of R10 000 is invested for 5 years at an interest rate of 8% p.a. compounded annually. Calculate the final value of the investment.",
+                    inputs: ["Investment Value (R)"],
+                    ans: [[14693.20, 14693.35], "14693.28", "14693,28"],
+                    solution: "$A = P(1 + i)^n$<br>$A = 10000(1 + 0.08)^5 = \\text{R}14\\,693.28$"
+                },
+                {
+                    subId: "4.2",
+                    q: "A car valued at R150 000 depreciates at a rate of 12% p.a. on a reducing-balance method over 3 years. Calculate the value of the car after 3 years.",
+                    inputs: ["Car Value (R)"],
+                    ans: [[102220.70, 102220.90], "102220.80", "102220,80"],
+                    solution: "$A = P(1 - i)^n$<br>$A = 150000(1 - 0.12)^3 = \\text{R}102\\,220.80$"
+                }
+            ]
+        },
+        {
+            id: 5,
+            type: "multipart",
+            q: "Differential Calculus",
+            subquestions: [
+                {
+                    subId: "5.1",
+                    q: "Determine the derivative $f'(x)$ using <b>first principles</b> if $f(x) = 3x^2$.",
+                    inputs: ["f'(x)"],
+                    ans: [["6x"]],
+                    solution: "$f'(x) = \\lim_{h \\to 0}\\frac{3(x+h)^2 - 3x^2}{h} = \\lim_{h \\to 0}\\frac{6xh + 3h^2}{h} = 6x$."
+                },
+                {
+                    subId: "5.2.1",
+                    q: "Determine $\\frac{dy}{dx}$ using differentiation rules: $y = 4x^3 - 2x + 7$",
+                    inputs: ["dy/dx"],
+                    ans: [["12x^2-2", "12x^2 - 2"]],
+                    solution: "Applying the power rule gives $\\frac{dy}{dx} = 12x^2 - 2$."
+                },
+                {
+                    subId: "5.2.2",
+                    q: "Determine $\\frac{dy}{dx}$ using differentiation rules: $y = \\frac{3}{x^2}$",
+                    inputs: ["dy/dx"],
+                    ans: [["-6x^-3", "-6/x^3", "-6x^(-3)"]],
+                    solution: "Rewrite as $y = 3x^{-2} \\implies \\frac{dy}{dx} = -6x^{-3} = -\\frac{6}{x^3}$."
+                }
+            ]
+        },
+        {
+            id: 6,
+            type: "multipart",
+            q: "Trigonometry",
+            subquestions: [
+                {
+                    subId: "6.1",
+                    q: "Simplify without using a calculator: $\\sin(180^\\circ - \\theta) \\cdot \\cos(90^\\circ - \\theta) + \\cos^2\\theta$",
+                    inputs: ["Value"],
+                    ans: [["1"]],
+                    solution: "$\\sin(180^\\circ - \\theta) = \\sin\\theta$ and $\\cos(90^\\circ - \\theta) = \\sin\\theta$. Thus, $\\sin^2\\theta + \\cos^2\\theta = 1$."
+                },
+                {
+                    subId: "6.2",
+                    q: "Solve for $\\theta \\in [0^\\circ ; 360^\\circ]$ given $2\\sin\\theta - 1 = 0$.",
+                    inputs: ["\\theta_1", "\\theta_2"],
+                    ans: [["30", "30 deg", "30°"], ["150", "150 deg", "150°"]],
+                    solution: "$\\sin\\theta = 0.5$. Reference angle is $30^\\circ$. Quad 1: $\\theta = 30^\\circ$, Quad 2: $\\theta = 180^\\circ - 30^\\circ = 150^\\circ$."
+                }
+            ]
+        },
+        {
+            id: 7,
+            type: "multipart",
+            q: "Analytical Geometry (Given $A(-2, 1)$ and $B(4, 5)$)",
+            subquestions: [
+                {
+                    subId: "7.1",
+                    q: "Calculate the gradient of line $AB$.",
+                    inputs: ["m"],
+                    ans: [["2/3", "0.67", "0.666", "0.667"]],
+                    solution: "$m = \\frac{5 - 1}{4 - (-2)} = \\frac{4}{6} = \\frac{2}{3}$."
+                },
+                {
+                    subId: "7.2",
+                    q: "Determine the midpoint $M$ of line $AB$.",
+                    inputs: ["M_x", "M_y"],
+                    ans: [["1", "x=1"], ["3", "y=3"]],
+                    solution: "$M\\left(\\frac{-2 + 4}{2}, \\frac{1 + 5}{2}\\right) = M(1, 3)$."
+                },
+                {
+                    subId: "7.3",
+                    q: "Find the equation of the circle centered at the origin $(0,0)$ that passes through point $B(4,5)$.",
+                    inputs: ["Equation"],
+                    ans: [["x^2+y^2=41", "x^2 + y^2 = 41"]],
+                    solution: "$r^2 = 4^2 + 5^2 = 16 + 25 = 41$. The circle equation is $x^2 + y^2 = 41$."
+                }
+            ]
+        }
+    ]
+};
+
+// --- CORE ENGINE LOGIC ---
+
+function initializeTheme() {
+    const metaText = testData.meta;
+    let themeColor = "#00d4ff"; 
+    
+    const rankColors = {
+        'sss': '#ff0000', 'ss': '#ffaa00', 's': '#f8d7da',   
+        'a': '#ffe5d0',   'b': '#fff3cd',  'c': '#d1e7dd',   
+        'd': '#d0e7ff',   'e': '#f0f0f0'    
+    };
+
+    const rankMatch = metaText.match(/Rank\s*:\s*([a-z]+)/i);
+    let updatedMetaHTML = metaText;
+
+    if (rankMatch && rankMatch[1]) {
+        const targetRank = rankMatch[1].toLowerCase();
+        if (rankColors[targetRank]) {
+            themeColor = rankColors[targetRank];
+            const matchedString = rankMatch[0];
+            updatedMetaHTML = metaText.replace(matchedString, `<span class="rank-highlight">${matchedString}</span>`);
+        }
+    }
+
+    document.documentElement.style.setProperty('--accent-theme', themeColor);
+    const name = localStorage.getItem('playerName') || "User";
+    document.getElementById('test-meta').innerHTML = `${updatedMetaHTML} | Active Session: ${name}`;
+}
+
+function loadTest() {
+    initializeTheme();
+    document.getElementById('test-title').innerText = testData.title;
+
+    const container = document.getElementById('questions-container');
+    container.innerHTML = '';
+    
+    testData.questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        
+        let imageHTML = '';
+        if (item.img) {
+            imageHTML = `
+                <div class="q-image-wrapper">
+                    <img src="${item.img}" alt="Question Axis Component Grid">
+                </div>`;
+        }
+
+        let tipHTML = '';
+        if (item.tip) {
+            tipHTML = `
+                <div class="q-tip">
+                    <span>💡</span>
+                    <div>${item.tip}</div>
+                </div>`;
+        }
+        
+        if (item.type === "multipart") {
+            let subsHTML = `<div class="subquestions-container">`;
+            item.subquestions.forEach((sub) => {
+                let inputsHTML = `<div class="inputs-wrapper">`;
+                sub.inputs.forEach((label, i) => {
+                    inputsHTML += `
+                        <div class="input-group">
+                            ${sub.inputs.length > 1 ? `<span class="input-prefix">${label}:</span>` : ''}
+                            <input type="text" placeholder="Type data..." id="ans-${item.id}-${sub.subId}-${i}">
+                        </div>`;
+                });
+                inputsHTML += `</div>`;
+
+                subsHTML += `
+                    <div class="sub-item">
+                        <div class="sub-q-text"><strong>${sub.subId}:</strong> ${sub.q}</div>
+                        ${inputsHTML}
+                        <button id="sol-btn-${item.id}-${sub.subId}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}-${sub.subId}')">VIEW CORRECTION METHOD</button>
+                        <div id="drawer-${item.id}-${sub.subId}" class="correction-drawer">
+                            <div class="correction-content">
+                                <div class="correction-title">Analysis & Methods (${sub.subId})</div>
+                                <div>${sub.solution || "No correction track loaded."}</div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            subsHTML += `</div>`;
+
+            card.innerHTML = `
+                <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
+                ${imageHTML}
+                ${tipHTML}
+                ${subsHTML}
+            `;
+        } else {
+            let inputLabels = item.inputs || ["Answer"];
+            let inputsHTML = `<div class="inputs-wrapper">`;
+            inputLabels.forEach((label, i) => {
+                inputsHTML += `
+                    <div class="input-group">
+                        ${inputLabels.length > 1 ? `<span class="input-prefix">${label}:</span>` : ''}
+                        <input type="text" placeholder="Type data..." id="ans-${item.id}-${i}">
+                    </div>`;
+            });
+            inputsHTML += `</div>`;
+
+            card.innerHTML = `
+                <div class="q-text"><strong>Q${index + 1}:</strong> ${item.q}</div>
+                ${imageHTML}
+                ${tipHTML}
+                ${inputsHTML}
+                <button id="sol-btn-${item.id}" class="toggle-solution-btn" onclick="toggleSolution('${item.id}')">VIEW CORRECTION METHOD</button>
+                <div id="drawer-${item.id}" class="correction-drawer">
+                    <div class="correction-content">
+                        <div class="correction-title">Analysis & Methods</div>
+                        <div>${item.solution || "No correction track loaded."}</div>
+                    </div>
+                </div>
+            `;
+        }
+        container.appendChild(card);
+    });
+    
+    MathJax.typesetPromise();
+    startStopwatch(); // Initialize Stopwatch on load
+}
+
+function validateAnswer(userVal, correctVal) {
+    let cleanUser = userVal.trim().toLowerCase().replace(/\s+/g, '');
+    
+    // 1. INTERVAL RANGE CONFIG: Check boundaries if exact numerical double array [min, max]
+    if (Array.isArray(correctVal) && correctVal.length === 2 && typeof correctVal[0] === 'number') {
+        let userNum = parseFloat(cleanUser.replace(/[^\d.-]/g, ''));
+        if (isNaN(userNum)) return false;
+        return userNum >= correctVal[0] && userNum <= correctVal[1];
+    }
+    
+    // 2. THE OR FACTOR LOGIC: Parse sub-arrays to handle decimal vs fraction combinations seamlessly
+    if (Array.isArray(correctVal)) {
+        return correctVal.some(option => {
+            let cleanOption = String(option).trim().toLowerCase().replace(/\s+/g, '');
+            if (cleanUser === cleanOption) return true;
+            let uRaw = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
+            let oRaw = cleanOption.includes('=') ? cleanOption.split('=')[1] : cleanOption;
+            return uRaw === oRaw && uRaw !== "";
+        });
+    }
+    
+    // 3. STANDARD STRING CHECK
+    let cleanCorrect = String(correctVal).trim().toLowerCase().replace(/\s+/g, '');
+    if (cleanUser === cleanCorrect) return true;
+    
+    let userRawValue = cleanUser.includes('=') ? cleanUser.split('=')[1] : cleanUser;
+    let correctRawValue = cleanCorrect.includes('=') ? cleanCorrect.split('=')[1] : cleanCorrect;
+    
+    return userRawValue === correctRawValue && userRawValue !== "";
+}
+
+function submitTest() {
+    stopStopwatch(); // Halt Timer on completion
+    const totalCompletionTime = formatTime(secondsElapsed);
+    
+    let grandTotalPoints = 0;
+    let totalEarnedPoints = 0;
+    
+    testData.questions.forEach((item) => {
+        if (item.type === "multipart") {
+            item.subquestions.forEach((sub) => {
+                sub.inputs.forEach((_, i) => {
+                    grandTotalPoints++;
+                    const inputField = document.getElementById(`ans-${item.id}-${sub.subId}-${i}`);
+                    const uVal = inputField.value;
+                    const cVal = sub.ans[i] !== undefined ? sub.ans[i] : sub.ans;
+                    
+                    if (validateAnswer(uVal, cVal)) {
+                        inputField.style.borderColor = varColor('--success-green');
+                        inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
+                        totalEarnedPoints++;
+                    } else {
+                        inputField.style.borderColor = varColor('--error-red');
+                        inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
+                        
+                        if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
+                            inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
+                        } else if (Array.isArray(cVal)) {
+                            inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
+                        } else {
+                            inputField.placeholder = `Expected: ${cVal}`;
+                        }
+                    }
+                    inputField.disabled = true;
+                });
+                document.getElementById(`sol-btn-${item.id}-${sub.subId}`).style.display = "inline-block";
+            });
+        } else {
+            let inputLabels = item.inputs || ["Answer"];
+            inputLabels.forEach((_, i) => {
+                grandTotalPoints++;
+                const inputField = document.getElementById(`ans-${item.id}-${i}`);
+                const uVal = inputField.value;
+                const cVal = item.ans[i] !== undefined ? item.ans[i] : item.ans;
+                
+                if (validateAnswer(uVal, cVal)) {
+                    inputField.style.borderColor = varColor('--success-green');
+                    inputField.style.backgroundColor = "rgba(46, 204, 113, 0.06)";
+                    totalEarnedPoints++;
+                } else {
+                    inputField.style.borderColor = varColor('--error-red');
+                    inputField.style.backgroundColor = "rgba(231, 76, 60, 0.06)";
+                    
+                    if (Array.isArray(cVal) && typeof cVal[0] === 'number') {
+                        inputField.placeholder = `Range: ${cVal[0]}-${cVal[1]}`;
+                    } else if (Array.isArray(cVal)) {
+                        inputField.placeholder = `Expected: ${cVal.join(' or ')}`;
+                    } else {
+                        inputField.placeholder = `Expected: ${cVal}`;
+                    }
+                }
+                inputField.disabled = true;
+            });
+            document.getElementById('sol-btn-' + item.id).style.display = "inline-block";
+        }
+    });
+    
+    const scoreContainer = document.getElementById('result-score');
+    scoreContainer.style.display = "block";
+    document.getElementById('score-value').innerText = totalEarnedPoints;
+    document.getElementById('total-value').innerText = grandTotalPoints;
+    document.getElementById('time-value').innerText = totalCompletionTime;
+    
+    const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
+    if (percentage >= 80) {
+        showSystemMsg("Sync Complete", `Distinction Level achieved in ${totalCompletionTime}. The core logic is flawless. Meridian Prime is fully optimized.`);
+    } else if (percentage >= 50) {
+        showSystemMsg("System Warning", `Analysis passed in ${totalCompletionTime}, but interference detected. Review the nodes to reach peak performance.`);
+    } else {
+        showSystemMsg("Critical Error", `Logic failure in the assessment phase (${totalCompletionTime}). Reboot your study sequence and try again.`);
+    }
+}
+
+function varColor(varName) {
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+}
+
+function toggleSolution(combinedId) {
+    const drawer = document.getElementById(`drawer-${combinedId}`);
+    if (drawer.style.maxHeight && drawer.style.maxHeight !== "0px") {
+        drawer.style.maxHeight = "0px";
+    } else {
+        drawer.style.maxHeight = drawer.scrollHeight + "px";
+    }
+}
+
+function showSystemMsg(title, body) {
+    const savedName = localStorage.getItem('playerName') || "Candidate";
+    const overlay = document.getElementById('system-overlay');
+    document.getElementById('msg-title').innerText = title;
+    document.getElementById('msg-body').innerText = `Salutations, ${savedName}. ${body}`;
+    overlay.style.display = 'flex';
+    setTimeout(() => { overlay.style.opacity = '1'; }, 10);
+}
+
+function closeSystemMsg() {
+    const overlay = document.getElementById('system-overlay');
+    overlay.style.opacity = '0';
+    setTimeout(() => { overlay.style.display = 'none'; }, 500);
+}
+
+window.onload = () => {
+    loadTest();
+};
+</script>
+
+</body>
+</html>
