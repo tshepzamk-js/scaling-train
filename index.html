@@ -216,15 +216,15 @@
         });
     </script>
     
-    <script>
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "firebase/app";
-        import { getAnalytics } from "firebase/analytics";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-        
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    <!-- Insert this script right before </body> in your HTML document -->
+    <script type="module">
+        // 1. Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        // If you need Realtime Database or Firestore, import them here:
+        // import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    
+        // 2. Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDjx8V9l6EXNPPNoGsMhUk8PlSHIsIUFcE",
             authDomain: "scaling-train-54894.firebaseapp.com",
@@ -235,10 +235,41 @@
             appId: "1:811725820748:web:7ba2cefe1d287eaf06f5e9",
             measurementId: "G-4S3WX6P18L"
         };
-        
-        // Initialize Firebase
+    
+        // 3. Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
+    
+        // 4. Form Submission Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupForm = document.querySelector('.signup-form');
+    
+            if (signupForm) {
+                signupForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const nameInput = document.getElementById('playerName');
+                    const playerName = nameInput ? nameInput.value.trim() : '';
+    
+                    if (!playerName) return;
+    
+                    const submitBtn = signupForm.querySelector('.accept-btn');
+                    if (submitBtn) {
+                        submitBtn.innerText = "INITIALIZING...";
+                        submitBtn.disabled = true;
+                    }
+    
+                    // Save to local storage
+                    localStorage.setItem('playerName', playerName);
+    
+                    // Redirect to Homepage
+                    setTimeout(() => {
+                        window.location.href = './Homepage/homepage.html';
+                    }, 400);
+                });
+            }
+        });
     </script>
+
 </body>
 </html>
