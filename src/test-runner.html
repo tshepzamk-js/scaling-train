@@ -18,6 +18,16 @@
 </head>
 <body>
 <div class="container">
+    
+    <!-- ORACLE LIVE TERMINAL STATUS BAR -->
+    <div class="oracle-system-bar">
+        <div class="oracle-status">
+            <div class="pulse-dot"></div>
+            <span>ORACLE // SYSTEM IN COMMISSION </span>
+        </div>
+        <div class="oracle-module-tag">STATUS: <span>ACTIVE</span></div>
+    </div>
+
     <div class="header">
         <div class="header-info">
             <h1 id="test-title">Loading...</h1>
@@ -31,11 +41,28 @@
 
     <div id="questions-container"></div>
 
-    <div id="system-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(3,7,18,0.95); z-index:1000; display:none; justify-content:center; align-items:center; opacity:0; transition: 0.5s;">
-        <div id="message-box" style="background:#0c1020; border: 2px solid var(--accent-theme); padding: 40px; border-radius: 24px; text-align:center; box-shadow: 0 0 50px rgba(0,0,0,0.8); max-width: 80%;">
-            <h2 id="msg-title" style="color:var(--accent-theme); text-transform:uppercase; letter-spacing:3px; margin-top:0;"></h2>
-            <p id="msg-body" style="font-size:1.1rem; line-height:1.6; color:#cbd5e1;"></p>
-            <button class="action-btn" onclick="closeSystemMsg()" style="margin-top:20px;">SESSION COMPLETE</button>
+    <!-- ORACLE SYSTEM OVERLAY MODAL -->
+    <div id="system-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(3,7,18,0.95); z-index:1000; display:none; justify-content:center; align-items:center; opacity:0; transition: 0.5s; backdrop-filter: blur(8px);">
+        <div id="message-box" style="background:#0c1020; border: 2px solid var(--accent-theme); padding: 40px; border-radius: 24px; text-align:center; box-shadow: 0 0 50px rgba(0,0,0,0.8); max-width: 500px; width: 90%;">
+            <div class="oracle-badge">
+                <div class="pulse-dot"></div>
+                <span>ORACLE // CORE ANALYTICS</span>
+            </div>
+            <h2 id="msg-title" style="color:var(--accent-theme); text-transform:uppercase; letter-spacing:2px; margin-top:0; font-size: 1.5rem;"></h2>
+            
+            <div class="oracle-stats-grid">
+                <div class="oracle-stat-card">
+                    <div class="oracle-stat-label">Sync Accuracy</div>
+                    <div class="oracle-stat-val" id="modal-accuracy">0%</div>
+                </div>
+                <div class="oracle-stat-card">
+                    <div class="oracle-stat-label">Time Elapsed</div>
+                    <div class="oracle-stat-val" id="modal-time">00:00</div>
+                </div>
+            </div>
+
+            <p id="msg-body" style="font-size:0.95rem; line-height:1.6; color:#cbd5e1; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; border-left: 3px solid var(--accent-theme); text-align: left;"></p>
+            <button class="action-btn" onclick="closeSystemMsg()" style="margin-top:20px; width: 100%;">ACKNOWLEDGE & REVIEW</button>
         </div>
     </div>
 
@@ -92,7 +119,7 @@ function loadScript(src) {
 // --- CORE UI RENDER ENGINE ---
 function initializeTheme() {
     const metaText = testData.meta;
-    let themeColor = "#00d4ff"; 
+    let themeColor = "#00f0ff"; 
     
     const rankColors = {
         'sss': '#ff0000', 'ss': '#ffaa00', 's': '#f8d7da',  
@@ -113,7 +140,7 @@ function initializeTheme() {
     }
 
     document.documentElement.style.setProperty('--accent-theme', themeColor);
-    const name = localStorage.getItem('playerName') || "User";
+    const name = localStorage.getItem('playerName') || "Candidate";
     document.getElementById('test-meta').innerHTML = `${updatedMetaHTML} | Active Session: ${name}`;
 }
 
@@ -306,14 +333,27 @@ function submitTest() {
     document.getElementById('total-value').innerText = grandTotalPoints;
     document.getElementById('time-value').innerText = totalCompletionTime;
     
-    const percentage = (totalEarnedPoints / grandTotalPoints) * 100;
-    if (percentage >= 80) {
-        showSystemMsg("Sync Complete", `Distinction Level achieved in ${totalCompletionTime}. The core logic is flawless.`);
+    const percentage = Math.round((totalEarnedPoints / grandTotalPoints) * 100);
+    
+    // ORACLE SYSTEM MATRIX LOGIC
+    let oracleTitle = "";
+    let oracleMessage = "";
+
+    if (percentage === 100) {
+        oracleTitle = "Optimal Synchronization";
+        oracleMessage = `Flawless execution. All mathematical vectors resolved with 100% accuracy in ${totalCompletionTime}. Astra Academy core parameters remain fully calibrated.`;
+    } else if (percentage >= 80) {
+        oracleTitle = "High Mastery Achieved";
+        oracleMessage = `Solid output. You logged ${percentage}% accuracy in ${totalCompletionTime}. Minor friction detected in step execution, but overall baseline performance is strong.`;
     } else if (percentage >= 50) {
-        showSystemMsg("System Warning", `Analysis passed in ${totalCompletionTime}, but interference detected. Review the nodes.`);
+        oracleTitle = "System Sub-Optimal";
+        oracleMessage = `Evaluation completed with ${percentage}% accuracy over ${totalCompletionTime}. Several logic pathways failed to resolve. Review the solution tracks below to patch concept gaps.`;
     } else {
-        showSystemMsg("Critical Error", `Logic failure in the assessment phase (${totalCompletionTime}). Reboot your study sequence and try again.`);
+        oracleTitle = "Interference Detected";
+        oracleMessage = `Sync accuracy dropped to ${percentage}%. Your evaluation time was ${totalCompletionTime}. Recommend opening the solution drawers, re-evaluating core formulas, and initiating a re-test.`;
     }
+
+    showOracleSystemMsg(oracleTitle, oracleMessage, percentage, totalCompletionTime);
 }
 
 function varColor(varName) {
@@ -329,11 +369,15 @@ function toggleSolution(combinedId) {
     }
 }
 
-function showSystemMsg(title, body) {
+function showOracleSystemMsg(title, body, accuracy, time) {
     const savedName = localStorage.getItem('playerName') || "Candidate";
     const overlay = document.getElementById('system-overlay');
+    
     document.getElementById('msg-title').innerText = title;
-    document.getElementById('msg-body').innerText = `Salutations, ${savedName}. ${body}`;
+    document.getElementById('modal-accuracy').innerText = `${accuracy}%`;
+    document.getElementById('modal-time').innerText = time;
+    document.getElementById('msg-body').innerText = `[ORACLE LOG]: Candidate '${savedName}', ${body}`;
+    
     overlay.style.display = 'flex';
     setTimeout(() => { overlay.style.opacity = '1'; }, 10);
 }
